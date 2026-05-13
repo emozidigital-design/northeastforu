@@ -1,0 +1,98 @@
+{
+    "destinationGaps": [
+        {
+            "topic": "Manas National Park",
+            "suggestedPageType": "city",
+            "suggestedUrl": "/assam/manas-national-park",
+            "targetKeyword": "Manas National Park travel guide",
+            "priority": "high"
+        },
+        {
+            "topic": "Dibrugarh",
+            "suggestedPageType": "city",
+            "suggestedUrl": "/assam/dibrugarh",
+            "targetKeyword": "Dibrugarh tea tourism",
+            "priority": "high"
+        },
+        {
+            "topic": "Sualkuchi",
+            "suggestedPageType": "city",
+            "suggestedUrl": "/assam/sualkuchi",
+            "targetKeyword": "Sualkuchi silk village",
+            "priority": "high"
+        },
+        {
+            "topic": "Umananda Temple",
+            "suggestedPageType": "attraction",
+            "suggestedUrl": "/assam/guwahati/umananda-temple",
+            "targetKeyword": "Umananda Temple peacock island",
+            "priority": "high"
+        },
+        {
+            "topic": "Agnigarh",
+            "suggestedPageType": "attraction",
+            "suggestedUrl": "/assam/tezpur/agnigarh",
+            "targetKeyword": "Agnigarh hill Tezpur",
+            "priority": "high"
+        },
+        {
+            "topic": "Kaziranga Orchid Park",
+            "suggestedPageType": "attraction",
+            "suggestedUrl": "/assam/kaziranga/orchid-park",
+            "targetKeyword": "Kaziranga Orchid Park visit",
+            "priority": "high"
+        },
+        {
+            "topic": "Pobitora Wildlife Sanctuary",
+            "suggestedPageType": "attraction",
+            "suggestedUrl": "/assam/guwahati/pobitora-wildlife-sanctuary",
+            "targetKeyword": "Pobitora wildlife safari",
+            "priority": "high"
+        },
+        {
+            "topic": "Hajo",
+            "suggestedPageType": "city",
+            "suggestedUrl": "/assam/hajo",
+            "targetKeyword": "Hajo pilgrimage guide",
+            "priority": "medium"
+        },
+        {
+            "topic": "Nameri National Park",
+            "suggestedPageType": "city",
+            "suggestedUrl": "/assam/nameri-national-park",
+            "targetKeyword": "Nameri National Park rafting",
+            "priority": "medium"
+        },
+        {
+            "topic": "Assam State Museum",
+            "suggestedPageType": "attraction",
+            "suggestedUrl": "/assam/guwahati/assam-state-museum",
+            "targetKeyword": "Assam State Museum collection",
+            "priority": "medium"
+        },
+        {
+            "topic": "Brahmaputra River Cruise",
+            "suggestedPageType": "activity",
+            "suggestedUrl": "/assam/guwahati/brahmaputra-river-cruise",
+            "targetKeyword": "Brahmaputra river cruise sunset",
+            "priority": "medium"
+        },
+        {
+            "topic": "Wildlife of Assam",
+            "suggestedPageType": "blog",
+            "suggestedUrl": "/blog/wildlife-of-assam-guide",
+            "targetKeyword": "Assam wildlife guide national parks",
+            "priority": "high"
+        }
+    ],
+    "topicsAlreadyCovered": [
+        "Kamakhya Temple",
+        "Kaziranga National Park",
+        "Majuli Island Satras",
+        "Guwahati",
+        "Tezpur",
+        "Haflong",
+        "Sivasagar"
+    ],
+    "totalGapsFound": 12
+}

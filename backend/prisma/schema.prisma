@@ -1,0 +1,397 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model activities {
+  id                   Int       @id @default(autoincrement())
+  city_id              Int?
+  name                 String    @db.VarChar(255)
+  slug                 String    @unique @db.VarChar(255)
+  description          String?
+  duration             String?   @db.VarChar(255)
+  difficulty           String?   @db.VarChar(50)
+  price                Decimal?  @db.Decimal(10, 2)
+  booking_link         String?
+  best_season          String?   @db.VarChar(255)
+  is_published         Boolean?  @default(false)
+  seo_title            String?   @db.VarChar(255)
+  seo_description      String?
+  faq                  Json?
+  last_verified_date   DateTime? @db.Date
+  created_at           DateTime? @default(now()) @db.Timestamp(0)
+  state_id             Int?
+  category             String?   @db.VarChar(255)
+  updated_at           DateTime? @default(now()) @db.Timestamp(6)
+  gallery_images       Json?     @default("[]")
+  highlights           Json?     @default("[]")
+  inclusions           Json?     @default("[]")
+  exclusions           Json?     @default("[]")
+  important_info       Json?     @default("[]")
+  meeting_point        String?
+  meeting_point_lat    Decimal?  @db.Decimal(10, 8)
+  meeting_point_lng    Decimal?  @db.Decimal(11, 8)
+  cancellation_policy  String?   @default("Free cancellation up to 24 hours before the activity starts")
+  languages            Json?     @default("[\"English\", \"Hindi\"]")
+  group_size_min       Int?      @default(1)
+  group_size_max       Int?      @default(15)
+  age_requirement      String?   @default("Suitable for all ages")
+  physical_rating      String?   @default("Moderate") @db.VarChar(20)
+  what_to_bring        Json?     @default("[]")
+  faqs                 Json?     @default("[]")
+  price_original       Decimal?  @db.Decimal(10, 2)
+  price_discounted     Decimal?  @db.Decimal(10, 2)
+  instant_confirmation Boolean?  @default(true)
+  free_cancellation    Boolean?  @default(true)
+  rating               Decimal?  @default(0) @db.Decimal(3, 2)
+  review_count         Int?      @default(0)
+  featured_image       String?
+  cities               cities?   @relation(fields: [city_id], references: [id])
+  states               states?   @relation(fields: [state_id], references: [id], onUpdate: NoAction)
+
+  @@index([slug])
+}
+
+model attractions {
+  id                 Int       @id @default(autoincrement())
+  city_id            Int?
+  name               String    @db.VarChar(255)
+  slug               String    @unique @db.VarChar(255)
+  description        String?
+  location           String?
+  entry_fee          String?   @db.VarChar(255)
+  opening_hours      String?   @db.VarChar(255)
+  featured_image     String?
+  seo_title          String?   @db.VarChar(255)
+  seo_description    String?
+  faq                Json?
+  last_verified_date DateTime? @db.Date
+  created_at         DateTime? @default(now()) @db.Timestamp(0)
+  category           String?   @db.VarChar(255)
+  best_time          String?   @db.VarChar(255)
+  updated_at         DateTime? @default(now()) @db.Timestamp(6)
+  timings            String?   @db.VarChar(255)
+  cities             cities?   @relation(fields: [city_id], references: [id], onDelete: Cascade)
+
+  @@index([city_id])
+  @@index([slug])
+}
+
+model blogs {
+  id              Int          @id @default(autoincrement())
+  title           String       @db.VarChar(255)
+  slug            String       @unique @db.VarChar(255)
+  content         String?
+  author          String?      @db.VarChar(255)
+  featured_image  String?
+  category        String?      @db.VarChar(100)
+  ai_draft        Boolean?     @default(false)
+  seo_title       String?      @db.VarChar(255)
+  seo_description String?
+  faq             Json?
+  published_at    DateTime?    @db.Timestamp(0)
+  created_at      DateTime?    @default(now()) @db.Timestamp(0)
+  status          String?      @default("draft") @db.VarChar(50)
+  updated_at      DateTime?    @default(now()) @db.Timestamp(6)
+  blog_queue      blog_queue[]
+
+  @@index([slug])
+}
+
+model cities {
+  id                 Int           @id @default(autoincrement())
+  state_id           Int?
+  name               String        @db.VarChar(255)
+  slug               String        @unique @db.VarChar(255)
+  description        String?
+  featured_image     String?
+  gallery_images     Json?         @default("[]")
+  budget_per_day     Decimal?      @db.Decimal(10, 2)
+  seo_title          String?       @db.VarChar(255)
+  seo_description    String?
+  faq                Json?
+  last_verified_date DateTime?     @db.Date
+  created_at         DateTime?     @default(now()) @db.Timestamp(0)
+  tagline            String?       @db.VarChar(255)
+  best_time_to_visit String?       @db.VarChar(255)
+  updated_at         DateTime?     @default(now()) @db.Timestamp(6)
+  how_to_reach       String?
+  activities         activities[]
+  attractions        attractions[]
+  states             states?       @relation(fields: [state_id], references: [id], onDelete: Cascade)
+
+  @@index([slug])
+  @@index([state_id])
+}
+
+model leads {
+  id               Int       @id @default(autoincrement())
+  name             String    @db.VarChar(255)
+  email            String    @db.VarChar(255)
+  phone            String?   @db.VarChar(20)
+  country          String?   @db.VarChar(100)
+  destination      String?   @db.VarChar(255)
+  travel_date      DateTime? @db.Date
+  num_travellers   Int?
+  budget_range     String?   @db.VarChar(100)
+  message          String
+  how_did_you_hear String?   @db.VarChar(255)
+  source_page      String?
+  status           String?   @default("New") @db.VarChar(50)
+  assigned_to      String?   @db.VarChar(255)
+  follow_up_date   DateTime? @db.Date
+  notes            String?
+  created_at       DateTime? @default(now()) @db.Timestamp(0)
+}
+
+model media {
+  id          Int       @id @default(autoincrement())
+  file_name   String    @db.VarChar(255)
+  file_url    String
+  alt_text    String?
+  uploaded_by String?   @db.VarChar(255)
+  created_at  DateTime? @default(now()) @db.Timestamp(0)
+}
+
+model newsletters {
+  id            Int      @id @default(autoincrement())
+  email         String   @unique @db.VarChar(255)
+  name          String?  @db.VarChar(255)
+  subscribed_at DateTime @default(now()) @db.Timestamp(0)
+  is_active     Boolean  @default(true)
+  source_page   String?
+}
+
+model permits {
+  id               Int     @id @default(autoincrement())
+  nationality      String  @db.VarChar(100)
+  state            String  @db.VarChar(100)
+  requirements     String
+  application_link String?
+}
+
+model reviews {
+  id             Int      @id @default(autoincrement())
+  page_type      String   @db.VarChar(50)
+  page_slug      String   @db.VarChar(255)
+  reviewer_name  String   @db.VarChar(255)
+  reviewer_email String   @db.VarChar(255)
+  rating         Int      @db.SmallInt
+  review_text    String
+  is_approved    Boolean  @default(false)
+  created_at     DateTime @default(now()) @db.Timestamp(0)
+
+  @@index([page_type, page_slug])
+}
+
+model states {
+  id                 Int          @id @default(autoincrement())
+  name               String       @db.VarChar(255)
+  slug               String       @unique @db.VarChar(255)
+  description        String?
+  featured_image     String?
+  gallery_images     Json?        @default("[]")
+  seo_title          String?      @db.VarChar(255)
+  seo_description    String?
+  faq                Json?
+  last_verified_date DateTime?    @db.Date
+  created_at         DateTime?    @default(now()) @db.Timestamp(0)
+  tagline            String?      @db.VarChar(255)
+  capital            String?      @db.VarChar(255)
+  language           String?      @db.VarChar(255)
+  best_season        String?      @db.VarChar(255)
+  updated_at         DateTime?    @default(now()) @db.Timestamp(6)
+  activities         activities[]
+  cities             cities[]
+
+  @@index([slug])
+}
+
+model blog_topics {
+  id          Int          @id @default(autoincrement())
+  topic       String       @db.VarChar(300)
+  keyword     String?      @db.VarChar(200)
+  source      String?      @db.VarChar(100)
+  trend_score Int?
+  is_used     Boolean?     @default(false)
+  created_at  DateTime?    @default(now()) @db.Timestamp(6)
+  blog_queue  blog_queue[]
+}
+
+model blog_queue {
+  id            Int          @id @default(autoincrement())
+  topic_id      Int?
+  title         String?      @db.VarChar(300)
+  status        String?      @default("pending") @db.VarChar(50)
+  scheduled_for DateTime?    @db.Timestamp(6)
+  published_at  DateTime?    @db.Timestamp(6)
+  blog_id       Int?
+  error_message String?
+  created_at    DateTime?    @default(now()) @db.Timestamp(6)
+  blogs         blogs?       @relation(fields: [blog_id], references: [id])
+  blog_topics   blog_topics? @relation(fields: [topic_id], references: [id])
+}
+
+model trends {
+  id         Int      @id @default(autoincrement())
+  keyword    String   @db.VarChar(255)
+  score      Int?
+  created_at DateTime @default(now()) @db.Timestamp(0)
+}
+
+model authors {
+  id         Int      @id @default(autoincrement())
+  name       String   @db.VarChar(255)
+  bio        String?
+  avatar_url String?
+  created_at DateTime @default(now())
+}
+
+model itineraries {
+  id             Int      @id @default(autoincrement())
+  title          String   @db.VarChar(255)
+  slug           String   @unique @db.VarChar(255)
+  description    String?
+  duration_days  Int
+  price_estimate Decimal? @db.Decimal(10, 2)
+  featured_image String?
+  created_at     DateTime @default(now())
+}
+
+model forum_categories {
+  id          Int           @id @default(autoincrement())
+  name        String        @db.VarChar(100)
+  slug        String        @unique @db.VarChar(100)
+  description String?       @db.VarChar(300)
+  icon        String?       @db.VarChar(50)
+  post_count  Int           @default(0)
+  created_at  DateTime      @default(now())
+  forum_posts forum_posts[]
+}
+
+model forum_posts {
+  id               Int               @id @default(autoincrement())
+  category_id      Int?
+  author_name      String            @db.VarChar(100)
+  author_email     String            @db.VarChar(150)
+  title            String            @db.VarChar(300)
+  content          String
+  is_approved      Boolean?          @default(false)
+  is_pinned        Boolean?          @default(false)
+  view_count       Int?              @default(0)
+  reply_count      Int?              @default(0)
+  created_at       DateTime          @default(now())
+  forum_categories forum_categories? @relation(fields: [category_id], references: [id])
+  forum_replies    forum_replies[]
+}
+
+model forum_replies {
+  id            Int          @id @default(autoincrement())
+  post_id       Int?
+  author_name   String       @db.VarChar(100)
+  author_email  String       @db.VarChar(150)
+  content       String
+  is_approved   Boolean?     @default(false)
+  is_helpful    Boolean?     @default(false)
+  helpful_count Int?         @default(0)
+  created_at    DateTime     @default(now())
+  forum_posts   forum_posts? @relation(fields: [post_id], references: [id], onDelete: Cascade)
+}
+
+model loyalty_members {
+  id           Int                    @id @default(autoincrement())
+  name         String                 @db.VarChar(100)
+  email        String                 @unique @db.VarChar(150)
+  points       Int?                   @default(0)
+  tier         String?                @default("Explorer") @db.VarChar(50)
+  total_earned Int?                   @default(0)
+  joined_at    DateTime               @default(now())
+  last_active  DateTime               @default(now())
+  transactions loyalty_transactions[]
+}
+
+model loyalty_transactions {
+  id              Int              @id @default(autoincrement())
+  member_id       Int?
+  action          String           @db.VarChar(100)
+  points          Int
+  description     String?          @db.VarChar(300)
+  created_at      DateTime         @default(now())
+  loyalty_members loyalty_members? @relation(fields: [member_id], references: [id])
+}
+
+model push_subscribers {
+  id            Int      @id @default(autoincrement())
+  endpoint      String   @unique
+  p256dh        String
+  auth          String
+  subscribed_at DateTime @default(now())
+  is_active     Boolean? @default(true)
+}
+
+model affiliate_links {
+  id              Int      @id @default(autoincrement())
+  page_slug       String?  @db.VarChar(200)
+  link_type       String?  @db.VarChar(50)
+  provider        String?  @db.VarChar(100)
+  link_url        String?  @db.VarChar(500)
+  display_text    String?  @db.VarChar(200)
+  commission_info String?  @db.VarChar(200)
+  is_active       Boolean? @default(true)
+  click_count     Int?     @default(0)
+  created_at      DateTime @default(now())
+}
+
+model content_versions {
+  id           Int       @id @default(autoincrement())
+  content_type String    @db.VarChar(50)
+  content_id   Int
+  field_name   String    @db.VarChar(100)
+  old_value    String?
+  new_value    String?
+  improved_by  String?   @default("claude-ai") @db.VarChar(100)
+  status       String?   @default("pending_review") @db.VarChar(50)
+  reviewed_by  String?   @db.VarChar(100)
+  reviewed_at  DateTime?
+  created_at   DateTime  @default(now())
+}
+
+model insider_tips {
+  id           Int      @id @default(autoincrement())
+  page_type    String   @db.VarChar(50)
+  page_slug    String   @db.VarChar(200)
+  tip_title    String?  @db.VarChar(200)
+  tip_content  String
+  tip_category String?  @db.VarChar(100)
+  is_approved  Boolean? @default(false)
+  created_at   DateTime @default(now())
+}
+
+model faq_items {
+  id              Int      @id @default(autoincrement())
+  page_type       String   @db.VarChar(50)
+  page_slug       String   @db.VarChar(200)
+  question        String
+  answer          String
+  display_order   Int?     @default(0)
+  is_approved     Boolean? @default(false)
+  schema_eligible Boolean? @default(true)
+  created_at      DateTime @default(now())
+}
+
+model automation_jobs {
+  id            Int      @id @default(autoincrement())
+  job_type      String   @db.VarChar(100)
+  status        String   @default("pending") @db.VarChar(50)
+  progress      Int      @default(0)
+  current_item  String?  @db.VarChar(255)
+  total_items   Int      @default(0)
+  logs          Json?
+  error_message String?
+  started_at    DateTime @default(now())
+  updated_at    DateTime @default(now()) @updatedAt
+}
