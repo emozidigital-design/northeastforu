@@ -75,7 +75,7 @@ export default function HeroSection({
                         exit={{ x: '-100%' }}
                         transition={{ duration: 0.4, ease: 'easeInOut', delay: 0 }}
                         className="absolute inset-0 z-0 bg-cover bg-center"
-                        style={{ backgroundImage: `url(${slides[current].src})` }}
+                        style={{ backgroundImage: `url("${slides[current].src}")` }}
                     />
                 </AnimatePresence>
 
@@ -101,7 +101,7 @@ export default function HeroSection({
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.5, ease: "easeInOut" }}
                     className="absolute inset-0 z-0 bg-cover bg-center"
-                    style={{ backgroundImage: `url(${slides[current].src})` }}
+                    style={{ backgroundImage: `url("${slides[current].src}")` }}
                 />
             </AnimatePresence>
 

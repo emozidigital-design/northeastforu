@@ -231,13 +231,13 @@ Its remote beauty, cultural richness, and adventure opportunities make Arunachal
     capital: 'Shillong',
     language: 'Khasi, Garo, English',
     best_season: 'Oct – May',
-    featured_image:
-      'https://images.unsplash.com/photo-1627915509748-0ca979147551?auto=format&fit=crop&w=1200&q=85',
+    featured_image: '/images/meghalaya/meghalaya-1.jpg',
     hero_images: [
-      { src: 'https://images.unsplash.com/photo-1627915509748-0ca979147551?auto=format&fit=crop&w=1200&q=85', label: 'Meghalaya', location: 'Northeast India' },
-      { src: 'https://images.unsplash.com/photo-1553789966-7fdc34a9ada0?auto=format&fit=crop&w=1200&q=85', label: 'Nohkalikai Falls', location: 'Cherrapunji' },
-      { src: 'https://images.unsplash.com/photo-1611116524846-3c89e8b75594?auto=format&fit=crop&w=1200&q=85', label: 'Shillong', location: 'Shillong' },
-      { src: 'https://images.unsplash.com/photo-1588614461853-cf6ed80faba5?auto=format&fit=crop&w=1200&q=85', label: 'Dawki River', location: 'Dawki' },
+      { src: '/images/meghalaya/meghalaya-1.jpg', label: 'Meghalaya', location: 'Northeast India' },
+      { src: '/images/meghalaya/meghalaya-2.jpg', label: 'Abode of Clouds', location: 'Meghalaya' },
+      { src: '/images/meghalaya/meghalaya-3.jpg', label: 'Meghalaya', location: 'Northeast India' },
+      { src: '/images/meghalaya/Cherrapunji 1.jpg', label: 'Cherrapunji', location: 'Cherrapunji' },
+      { src: '/images/meghalaya/Dawki 1.jpg', label: 'Dawki River', location: 'Dawki' },
     ],
     description: `Meghalaya is one of the most scenic states in North East India, known for its rolling hills, waterfalls, caves, cloud-covered landscapes, and rich tribal culture. Often called the "Abode of Clouds," the state offers a combination of natural beauty, adventure tourism, and cultural experiences.
 
@@ -251,55 +251,65 @@ With pleasant weather, scenic drives, and diverse attractions, Meghalaya remains
         name: 'Shillong',
         slug: 'shillong',
         description:
-          'The "Scotland of the East" — a vibrant hill capital with Ward\'s Lake, colonial charm, a thriving café and music culture, and proximity to iconic natural attractions.',
-        image:
-          'https://images.unsplash.com/photo-1611116524846-3c89e8b75594?auto=format&fit=crop&w=800&q=85',
+          'The capital of Meghalaya and one of the most visited hill stations in North East India — known for Ward\'s Lake, Shillong Peak, Elephant Falls, a vibrant café and music culture, and easy access to Cherrapunji and Dawki.',
+        image: '/images/meghalaya/Shillong 1.jpg',
         best_time: 'Oct – Jun',
       },
       {
         name: 'Cherrapunji',
         slug: 'cherrapunji',
         description:
-          'One of the wettest places on Earth — home to Nohkalikai Falls, the iconic Double Decker Living Root Bridge, Mawsmai Cave, and cloud-draped valleys.',
-        image:
-          'https://images.unsplash.com/photo-1553789966-7fdc34a9ada0?auto=format&fit=crop&w=800&q=85',
+          'One of the wettest places on Earth — home to Nohkalikai Falls, the iconic Double Decker Living Root Bridge, Mawsmai Cave, Seven Sisters Falls, and cloud-draped valleys with views into Bangladesh.',
+        image: '/images/meghalaya/Cherrapunji 1.jpg',
         best_time: 'Oct – May',
       },
       {
         name: 'Dawki',
         slug: 'dawki',
         description:
-          'Famous for the crystal-clear Umngot River where boats appear to float in mid-air — one of the most photographed river scenes in India.',
-        image:
-          'https://images.unsplash.com/photo-1588614461853-cf6ed80faba5?auto=format&fit=crop&w=800&q=85',
+          'Famous for the crystal-clear Umngot River where boats appear to float in mid-air. Nearby Shnongpdeng adds kayaking, cliff jumping, ziplining, and riverside camping — one of North East India\'s most photographed river destinations.',
+        image: '/images/meghalaya/Dawki 1.jpg',
         best_time: 'Oct – Mar',
       },
       {
         name: 'Mawlynnong',
         slug: 'mawlynnong',
         description:
-          'Asia\'s cleanest village with a living root bridge, sky walk viewpoint over Bangladesh plains, and immaculate Khasi community life.',
-        image:
-          'https://images.unsplash.com/photo-1627915509748-0ca979147551?auto=format&fit=crop&w=800&q=85',
+          'Asia\'s cleanest village — bamboo walkways, flower gardens, a living root bridge, and a sky walk viewpoint over Bangladesh plains, all maintained by an immaculate Khasi community.',
+        image: '/images/meghalaya/Mawlynnong 1.jpg',
         best_time: 'Oct – Apr',
       },
       {
         name: 'Laitlum',
         slug: 'laitlum',
         description:
-          'Dramatic canyon destination — "End of Hills" — with deep gorges, Khasi villages far below, and some of Meghalaya\'s finest sunrise views.',
-        image:
-          'https://images.unsplash.com/photo-1627915509748-0ca979147551?auto=format&fit=crop&w=800&q=85',
+          '"End of Hills" — dramatic canyon viewpoints with deep gorges, misty valleys, traditional Khasi villages far below, and some of Meghalaya\'s finest sunrise photography spots.',
+        image: '/images/meghalaya/Laitlum 1.jpg',
+        best_time: 'Oct – May',
+      },
+      {
+        name: 'Jowai',
+        slug: 'jowai',
+        description:
+          'Cultural center of the Jaintia Hills — home to the turquoise Krang Suri Falls, sacred forests, monoliths, caves, and a quieter, less-commercialized side of Meghalaya tourism.',
+        image: '/images/meghalaya/Jowai 1.jpg',
         best_time: 'Oct – May',
       },
       {
         name: 'Mawsynram',
         slug: 'mawsynram',
         description:
-          'Earth\'s wettest place by recorded rainfall — misty caves, green plateaus, monsoon waterfalls, and views stretching across Bangladesh plains.',
-        image:
-          'https://images.unsplash.com/photo-1627915509748-0ca979147551?auto=format&fit=crop&w=800&q=85',
+          'Earth\'s wettest place by recorded rainfall — misty caves, lush green plateaus, monsoon waterfalls, and panoramic views stretching across the Bangladesh plains below.',
+        image: '/images/meghalaya/meghalaya-2.jpg',
         best_time: 'Jun – Sep',
+      },
+      {
+        name: 'Umiam',
+        slug: 'umiam',
+        description:
+          'Scenic reservoir between Guwahati and Shillong — boating, kayaking, water sports, lakeside camping, and golden-hour views across pine-covered hills make it the perfect stopover before Shillong.',
+        image: '/images/meghalaya/meghalaya-3.jpg',
+        best_time: 'Oct – May',
       },
     ],
     attractions: [
@@ -307,6 +317,7 @@ With pleasant weather, scenic drives, and diverse attractions, Meghalaya remains
       { name: 'Nohkalikai Falls', location: 'Cherrapunji', why_visit: 'India\'s tallest waterfall plunging 340 m into a turquoise pool below dramatic cliffs.', best_time: 'Jul – Oct' },
       { name: 'Umngot River', location: 'Dawki', why_visit: 'Crystal-clear river so transparent that boats appear to float in the air.', best_time: 'Oct – Mar' },
       { name: 'Mawlynnong Village', location: 'Mawlynnong', why_visit: 'Asia\'s cleanest village — a model of community living and sustainable tourism.', best_time: 'Oct – Apr' },
+      { name: 'Krang Suri Falls', location: 'Jowai', why_visit: 'Turquoise waterfall in lush forested Jaintia Hills — one of Meghalaya\'s most beautiful cascades.', best_time: 'Oct – May' },
       { name: 'Elephant Falls', location: 'Shillong', why_visit: 'Tiered cascade in lush forest just 12 km from Shillong city center.', best_time: 'Year round' },
     ],
   },
@@ -400,12 +411,13 @@ With its unique identity and scenic environment, Manipur offers immersive travel
     capital: 'Aizawl',
     language: 'Mizo, English',
     best_season: 'Oct – Mar',
-    featured_image:
-      'https://images.unsplash.com/photo-1596422846543-75c6fc18a5cf?auto=format&fit=crop&w=1200&q=85',
+    featured_image: '/images/mizoram/mizoram-1.jpg',
     hero_images: [
-      { src: 'https://images.unsplash.com/photo-1596422846543-75c6fc18a5cf?auto=format&fit=crop&w=1200&q=85', label: 'Mizoram', location: 'Northeast India' },
-      { src: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1200&q=85', label: 'Blue Mountains', location: 'Mizoram' },
-      { src: 'https://images.unsplash.com/photo-1544735716-392fe2486ffe?auto=format&fit=crop&w=1200&q=85', label: 'Champhai Valley', location: 'Champhai' },
+      { src: '/images/mizoram/mizoram-1.jpg', label: 'Mizoram', location: 'Northeast India' },
+      { src: '/images/mizoram/mizoram-2.jpg', label: 'Land of Blue Mountains', location: 'Mizoram' },
+      { src: '/images/mizoram/mizoram-3.jpg', label: 'Mizoram', location: 'Northeast India' },
+      { src: '/images/mizoram/Champhai 1.jpg', label: 'Champhai Valley', location: 'Champhai' },
+      { src: '/images/mizoram/Vantawng 1.jpg', label: 'Vantawng Falls', location: 'Thenzawl' },
     ],
     description: `Mizoram is one of the most peaceful and scenic states in North East India, known for its rolling hills, dense forests, waterfalls, tribal culture, and panoramic mountain landscapes. Surrounded by Myanmar and Bangladesh, the state offers a unique blend of natural beauty, cultural richness, and offbeat travel experiences.
 
@@ -419,45 +431,40 @@ With its calm atmosphere, beautiful landscapes, and authentic cultural identity,
         name: 'Aizawl',
         slug: 'aizawl',
         description:
-          'Mizoram\'s dramatically hill-perched capital with panoramic valley views, vibrant local markets, Solomon\'s Temple, and an authentic Mizo urban atmosphere.',
-        image:
-          'https://images.unsplash.com/photo-1596422846543-75c6fc18a5cf?auto=format&fit=crop&w=800&q=85',
+          'Mizoram\'s dramatically hill-perched capital with panoramic valley views, vibrant local markets, Solomon\'s Temple, Durtlang Hills viewpoints, and an authentic Mizo urban atmosphere.',
+        image: '/images/mizoram/mizoram-1.jpg',
         best_time: 'Oct – Mar',
       },
       {
         name: 'Champhai',
         slug: 'champhai',
         description:
-          'The "Rice Bowl of Mizoram" — a wide valley near Myanmar with rolling farmland, vineyards, traditional villages, and breathtaking mountain scenery.',
-        image:
-          'https://images.unsplash.com/photo-1596422846543-75c6fc18a5cf?auto=format&fit=crop&w=800&q=85',
+          'The "Rice Bowl of Mizoram" — a wide valley near the Myanmar border with rolling farmland, vineyards, traditional villages, and some of the state\'s most breathtaking mountain scenery.',
+        image: '/images/mizoram/Champhai 1.jpg',
         best_time: 'Oct – Mar',
       },
       {
         name: 'Vantawng Falls',
         slug: 'vantawng-falls',
         description:
-          'Mizoram\'s highest and most spectacular waterfall, cascading through thick forests — best seen during the monsoon when it roars at full power.',
-        image:
-          'https://images.unsplash.com/photo-1596422846543-75c6fc18a5cf?auto=format&fit=crop&w=800&q=85',
+          'Mizoram\'s highest and most spectacular waterfall, cascading through thick forests in Thenzawl — best experienced during the monsoon when it reaches its full dramatic power.',
+        image: '/images/mizoram/Vantawng 1.jpg',
         best_time: 'Jun – Oct',
       },
       {
         name: 'Tam Dil Lake',
         slug: 'tam-dil-lake',
         description:
-          'A serene natural lake in forested hills near Saitual — perfect for boating, birdwatching, picnics, and peaceful half-day escapes from Aizawl.',
-        image:
-          'https://images.unsplash.com/photo-1596422846543-75c6fc18a5cf?auto=format&fit=crop&w=800&q=85',
+          'A serene natural lake nestled in forested hills near Saitual — perfect for boating, birdwatching, picnics, and peaceful half-day escapes from Aizawl.',
+        image: '/images/mizoram/Tam dil 1.jpg',
         best_time: 'Oct – Apr',
       },
       {
         name: 'Palak Dil',
         slug: 'palak-dil',
         description:
-          'Mizoram\'s largest natural lake near the Myanmar border — surrounded by wildlife-rich forests, associated with tribal folklore, and perfect for offbeat eco-tourism.',
-        image:
-          'https://images.unsplash.com/photo-1596422846543-75c6fc18a5cf?auto=format&fit=crop&w=800&q=85',
+          'Mizoram\'s largest natural lake near the Myanmar border — surrounded by wildlife-rich forests, wrapped in tribal folklore, and ideal for quiet offbeat eco-tourism.',
+        image: '/images/mizoram/mizoram-3.jpg',
         best_time: 'Oct – Mar',
       },
     ],
@@ -477,8 +484,14 @@ With its calm atmosphere, beautiful landscapes, and authentic cultural identity,
     capital: 'Kohima',
     language: 'Nagamese, English',
     best_season: 'Oct – Apr',
-    featured_image:
-      'https://images.unsplash.com/photo-1540611025311-01df3cef54b5?auto=format&fit=crop&w=1200&q=85',
+    featured_image: '/images/nagaland/nagaland-1.jpg',
+    hero_images: [
+      { src: '/images/nagaland/nagaland-1.jpg', label: 'Nagaland', location: 'Northeast India' },
+      { src: '/images/nagaland/nagaland-2.jpg', label: 'Land of Festivals', location: 'Nagaland' },
+      { src: '/images/nagaland/nagaland-3.jpg', label: 'Nagaland', location: 'Northeast India' },
+      { src: '/images/nagaland/dzuko 1.jpg', label: 'Dzukou Valley', location: 'Kohima' },
+      { src: '/images/nagaland/kohima.jpg', label: 'Kohima', location: 'Kohima' },
+    ],
     description: `Nagaland is one of the most culturally unique states in North East India, known for its tribal heritage, mountain landscapes, festivals, and traditional village life. Surrounded by forested hills and scenic valleys, the state offers a blend of culture, history, adventure, and nature tourism.
 
 The state is home to multiple Naga tribes, each with distinct traditions, festivals, architecture, crafts, music, and cuisine. Nagaland is internationally recognized for the Hornbill Festival, often referred to as the "Festival of Festivals," which showcases the cultural diversity of the region.
@@ -491,45 +504,49 @@ With its strong cultural identity and untouched landscapes, Nagaland remains one
         name: 'Kohima',
         slug: 'kohima',
         description:
-          'Nagaland\'s scenic mountain capital — home to the Kohima War Cemetery, tribal markets, traditional villages, and gateway to the famous Dzukou Valley.',
-        image:
-          'https://images.unsplash.com/photo-1540611025311-01df3cef54b5?auto=format&fit=crop&w=800&q=85',
+          'Nagaland\'s scenic mountain capital — home to the Kohima War Cemetery, tribal markets, traditional Naga villages, and the primary gateway to Dzukou Valley and the Hornbill Festival at Kisama.',
+        image: '/images/nagaland/kohima.jpg',
         best_time: 'Oct – Apr',
       },
       {
         name: 'Dimapur',
         slug: 'dimapur',
         description:
-          'Nagaland\'s commercial gateway — the main arrival point with bustling markets, historical Kachari ruins, and easy connections to the entire state.',
-        image:
-          'https://images.unsplash.com/photo-1540611025311-01df3cef54b5?auto=format&fit=crop&w=800&q=85',
+          'Nagaland\'s commercial gateway and the state\'s largest city — the main arrival point by air and rail with bustling markets, historical Kachari ruins, and connections to destinations across the state.',
+        image: '/images/nagaland/dimapur.jpg',
         best_time: 'Year round',
       },
       {
         name: 'Dzukou Valley',
         slug: 'dzukou-valley',
         description:
-          '"Valley of Flowers of the Northeast" — a rolling high-altitude paradise for trekkers, with seasonal wildflowers, camping, and panoramic mountain views.',
-        image:
-          'https://images.unsplash.com/photo-1540611025311-01df3cef54b5?auto=format&fit=crop&w=800&q=85',
+          '"Valley of Flowers of the Northeast" — a rolling high-altitude paradise on the Nagaland-Manipur border, famous for seasonal wildflowers, scenic camping, and panoramic mountain vistas.',
+        image: '/images/nagaland/dzuko 1.jpg',
         best_time: 'Jun – Sep (flowers), Oct – Feb (winter)',
       },
       {
         name: 'Mon',
         slug: 'mon',
         description:
-          'Home of the legendary Konyak tribe — visit Longwa village where the India-Myanmar border runs through the chief\'s house, and experience ancient warrior culture.',
-        image:
-          'https://images.unsplash.com/photo-1540611025311-01df3cef54b5?auto=format&fit=crop&w=800&q=85',
+          'Home of the legendary Konyak tribe — visit Longwa village where the India-Myanmar border runs through the chief\'s house, and experience wood carvings, warrior traditions, and ancient tribal heritage.',
+        image: '/images/nagaland/mon 1.jpg',
         best_time: 'Oct – Apr',
       },
       {
         name: 'Kisama',
         slug: 'kisama',
         description:
-          'Heritage Village near Kohima and venue for the annual Hornbill Festival — a living showcase of Naga tribal architecture, crafts, and traditions.',
-        image: '/images/hornbill-festival.png',
+          'Heritage Village near Kohima and permanent venue for the Hornbill Festival — a living showcase of Naga tribal architecture, traditional crafts, cultural performances, and indigenous food.',
+        image: '/images/nagaland/nagaland-2.jpg',
         best_time: 'Dec (festival)',
+      },
+      {
+        name: 'Phek & Tuensang',
+        slug: 'phek-tuensang',
+        description:
+          'Scenic eastern Nagaland districts with terraced farmlands, alpine lakes, dense forests, and authentic tribal villages — offering quiet, offbeat experiences away from mainstream tourism circuits.',
+        image: '/images/nagaland/nagaland-3.jpg',
+        best_time: 'Oct – Apr',
       },
     ],
     attractions: [
@@ -548,8 +565,14 @@ With its strong cultural identity and untouched landscapes, Nagaland remains one
     capital: 'Gangtok',
     language: 'Sikkimese, Nepali, Lepcha',
     best_season: 'Mar – May, Oct – Dec',
-    featured_image:
-      'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1200&q=85',
+    featured_image: '/images/sikkim/sikkim-1.jpg',
+    hero_images: [
+      { src: '/images/sikkim/sikkim-1.jpg', label: 'Sikkim', location: 'Northeast India' },
+      { src: '/images/sikkim/sikkim-2.jpg', label: 'Where Heaven Meets Earth', location: 'Sikkim' },
+      { src: '/images/sikkim/sikkim-3.jpg', label: 'Sikkim', location: 'Northeast India' },
+      { src: '/images/sikkim/gangtok 1.jpg', label: 'Gangtok', location: 'Gangtok' },
+      { src: '/images/sikkim/pelling 1.jpg', label: 'Pelling', location: 'West Sikkim' },
+    ],
     description: `Sikkim is one of India's most scenic Himalayan states, known for its snow-covered mountains, monasteries, alpine lakes, valleys, adventure tourism, and rich Buddhist culture. Nestled in the Eastern Himalayas, the state offers a combination of natural beauty, peaceful hill towns, and high-altitude landscapes.
 
 The state is home to some of the most iconic destinations in India including Gangtok, Tsomgo Lake, Nathula Pass, North Sikkim, and Zuluk. Sikkim is also famous for its clean environment, biodiversity, monasteries, waterfalls, and panoramic views of Mount Kanchenjunga.
@@ -562,55 +585,49 @@ Its organized tourism infrastructure, scenic beauty, and peaceful atmosphere mak
         name: 'Gangtok',
         slug: 'gangtok',
         description:
-          'Sikkim\'s vibrant mountain capital with MG Marg\'s café culture, Rumtek Monastery, Tashi View Point, and a base for exploring Tsomgo Lake and North Sikkim.',
-        image:
-          'https://images.unsplash.com/photo-1578662996442-48f60103fc96?auto=format&fit=crop&w=800&q=85',
+          'Sikkim\'s vibrant mountain capital — MG Marg\'s café culture, Rumtek Monastery, Tashi View Point, Hanuman Tok, and the primary base for Tsomgo Lake, Nathula Pass, and North Sikkim expeditions.',
+        image: '/images/sikkim/gangtok 1.jpg',
         best_time: 'Mar – May, Oct – Dec',
       },
       {
-        name: 'Pelling',
+        name: 'Tsomgo & Nathula',
+        slug: 'tsomgo-nathula',
+        description:
+          'Sikkim\'s most iconic high-altitude duo near the Indo-China border — Tsomgo Lake is a glacial alpine gem surrounded by snow mountains, while Nathula Pass at 14,140 ft was once part of the historic Silk Route.',
+        image: '/images/sikkim/tsumgo 1.jpg',
+        best_time: 'May – Oct',
+      },
+      {
+        name: 'Pelling & Ravangla',
         slug: 'pelling',
         description:
-          'West Sikkim\'s scenic hill town with front-row Kanchenjunga views, the Pemayangtse Monastery, a glass skywalk, and the colossal Chenrezig statue.',
-        image:
-          'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=800&q=85',
+          'West and South Sikkim\'s most scenic hill destinations — Pelling offers front-row Kanchenjunga views, Pemayangtse Monastery, a glass skywalk, and a giant Chenrezig statue; Ravangla charms with Buddha Park and forested serenity.',
+        image: '/images/sikkim/pelling 1.jpg',
         best_time: 'Oct – Apr',
       },
       {
-        name: 'Lachung',
-        slug: 'lachung',
+        name: 'North Sikkim',
+        slug: 'north-sikkim',
         description:
-          'Gateway to the famous Yumthang Valley and Zero Point in North Sikkim — a quaint alpine village ideal for snow and flower tourism.',
-        image:
-          'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=800&q=85',
+          'Sikkim\'s most spectacular mountain region — snow-covered peaks, Yumthang Valley\'s wildflower carpets, Zero Point snowfields, Gurudongmar Lake at 17,800 ft, and remote alpine villages in the Eastern Himalayas.',
+        image: '/images/sikkim/north s 1.jpg',
         best_time: 'Dec – Feb (snow), Apr – May (flowers)',
       },
       {
-        name: 'Ravangla',
-        slug: 'ravangla',
-        description:
-          'Peaceful South Sikkim town with the stunning Buddha Park, forest landscapes, and serene Himalayan views — ideal for a quiet mountain retreat.',
-        image:
-          'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=800&q=85',
-        best_time: 'Oct – Apr',
-      },
-      {
-        name: 'Namchi',
-        slug: 'namchi',
-        description:
-          'South Sikkim\'s spiritual center — home to the 87-foot Guru Padmasambhava statue at Samdruptse and the Char Dham replica complex.',
-        image:
-          'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=800&q=85',
-        best_time: 'Oct – Apr',
-      },
-      {
-        name: 'Zuluk',
+        name: 'Silk Route & Zuluk',
         slug: 'zuluk',
         description:
-          'Dramatic zigzag mountain roads along the ancient Silk Route in East Sikkim — legendary sunrise views and high-altitude passes near the Tibet border.',
-        image:
-          'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=800&q=85',
+          'East Sikkim\'s legendary mountain road journey — Zuluk\'s dramatic zigzag highway, Thambi View Point sunrise, and high-altitude passes along the ancient trade route that once connected India with Tibet.',
+        image: '/images/sikkim/silk 1.jpg',
         best_time: 'Oct – Dec, Mar – May',
+      },
+      {
+        name: 'Namchi & South Sikkim',
+        slug: 'namchi',
+        description:
+          'South Sikkim\'s spiritual and scenic heart — Namchi\'s 87-foot Guru Padmasambhava statue at Samdruptse, the Char Dham replica complex, panoramic valley views, and tranquil tea gardens.',
+        image: '/images/sikkim/namchi 1.jpg',
+        best_time: 'Oct – Apr',
       },
     ],
     attractions: [
@@ -629,8 +646,14 @@ Its organized tourism infrastructure, scenic beauty, and peaceful atmosphere mak
     capital: 'Agartala',
     language: 'Bengali, Kokborok',
     best_season: 'Oct – Mar',
-    featured_image:
-      'https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=1200&q=85',
+    featured_image: '/images/tripura/tripura-1.jpg',
+    hero_images: [
+      { src: '/images/tripura/tripura-1.jpg', label: 'Tripura', location: 'Northeast India' },
+      { src: '/images/tripura/tripura-2.jpg', label: 'Land of Fourteen Gods', location: 'Tripura' },
+      { src: '/images/tripura/tripura-3.jpg', label: 'Tripura', location: 'Northeast India' },
+      { src: '/images/tripura/neermahal 1.jpg', label: 'Neermahal Palace', location: 'Rudrasagar Lake' },
+      { src: '/images/tripura/unakoti 1.jpg', label: 'Unakoti', location: 'Kailashahar' },
+    ],
     description: `Tripura is one of the most culturally and historically rich states in North East India, known for its royal palaces, archaeological sites, lakes, temples, hill landscapes, and tribal heritage. Surrounded by Bangladesh on three sides, the state offers a unique combination of history, nature, and cultural tourism.
 
 The state is home to important attractions such as Neermahal, Unakoti, Jampui Hills, and ancient rock carvings that reflect Tripura's artistic and historical legacy. The region also features forests, wildlife sanctuaries, rural villages, and scenic hill ranges suitable for eco-tourism and leisure travel.
@@ -643,45 +666,48 @@ With improving connectivity and diverse attractions, Tripura is emerging as an i
         name: 'Agartala',
         slug: 'agartala',
         description:
-          'Tripura\'s graceful capital featuring the magnificent Ujjayanta Palace museum, Neermahal excursions, temples, and a blend of Bengali and tribal culture.',
-        image:
-          'https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=800&q=85',
+          'Tripura\'s graceful capital — home to the grand Ujjayanta Palace state museum, temples, local markets, and the main gateway for exploring Neermahal, Unakoti, Jampui Hills, and Sepahijala.',
+        image: '/images/tripura/agartala 1.jpg',
         best_time: 'Oct – Mar',
       },
       {
         name: 'Neermahal',
         slug: 'neermahal',
         description:
-          'Eastern India\'s only water palace — a stunning blend of Hindu and Mughal architecture rising from Rudrasagar Lake, best seen at golden hour.',
-        image:
-          'https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=800&q=85',
+          'Eastern India\'s only water palace — a breathtaking blend of Hindu and Mughal architecture rising from the center of Rudrasagar Lake, most magical at golden hour and during the annual Neermahal Water Festival.',
+        image: '/images/tripura/neermahal 1.jpg',
         best_time: 'Oct – Mar',
       },
       {
         name: 'Unakoti',
         slug: 'unakoti',
         description:
-          'Remarkable open-air rock-cut sanctuary with giant Shiva faces and thousands of sculptures carved into forested hillsides — a hidden archaeological marvel.',
-        image:
-          'https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=800&q=85',
+          'Remarkable open-air rock-cut sanctuary deep in forested hills — giant Shiva faces and thousands of centuries-old sculptures carved into the hillsides, one of the most extraordinary archaeological sites in North East India.',
+        image: '/images/tripura/unakoti 1.jpg',
         best_time: 'Oct – Mar',
       },
       {
         name: 'Jampui Hills',
         slug: 'jampui-hills',
         description:
-          'Tripura\'s primary hill station — fragrant orange orchards, sunrise viewpoints over Mizoram, and peaceful tribal village life at high altitude.',
-        image:
-          'https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=800&q=85',
+          'Tripura\'s beloved hill station — cool climate, fragrant orange orchards, panoramic sunrise viewpoints over Mizoram, and peaceful tribal village life at the state\'s highest elevations.',
+        image: '/images/tripura/jampui 1.jpg',
         best_time: 'Oct – Feb (orange season)',
       },
       {
         name: 'Sepahijala',
         slug: 'sepahijala',
         description:
-          'Wildlife sanctuary with clouded leopards, spectacled monkeys, boating lakes, and botanical gardens — the most accessible nature escape from Agartala.',
-        image:
-          'https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=800&q=85',
+          'Tripura\'s most accessible wildlife sanctuary — clouded leopards, spectacled monkeys, boating lakes, botanical gardens, and nature trails just 25 km from Agartala.',
+        image: '/images/tripura/sepahijala 1.jpg',
+        best_time: 'Oct – Mar',
+      },
+      {
+        name: 'Pilak & Boxanagar',
+        slug: 'pilak-boxanagar',
+        description:
+          'Ancient Buddhist and Hindu archaeological sites in South Tripura — stone carvings, terracotta sculptures, and structural remains dating back centuries, revealing Tripura\'s deep historical links with early Buddhist culture.',
+        image: '/images/tripura/pilak 1.jpg',
         best_time: 'Oct – Mar',
       },
     ],
