@@ -1,8 +1,11 @@
+export const dynamic = 'force-dynamic';
+
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import HeroSection from '@/components/ui/HeroSection';
 import ScrollReveal from '@/components/ui/ScrollReveal';
 import { fetchStateBySlug, fetchAllItineraries } from '@/lib/api';
+import { getStateData } from '@/lib/stateData';
 import SmartImage from '@/components/ui/SmartImage';
 import { MapPin, Clock, ArrowRight, Camera, Info, Zap, Lightbulb, Wallet, MoveRight, ChevronRight, Calendar } from 'lucide-react';
 import AttractionTable from '@/components/state/AttractionTable';
@@ -59,29 +62,31 @@ async function getTours(stateId: number) {
 export async function generateMetadata({ params }: { params: Promise<{ state: string }> }) {
     const { state: stateSlug } = await params;
     const data = await fetchStateBySlug(stateSlug);
-    if (!data) return { title: 'Not Found' };
-    
-    const title = data.seo_title || `${data.name || 'State'} Travel Guide | NorthEastForU`;
-    const description = data.seo_description || `Discover ${data.name}, explore cities, attractions and plan your perfect trip.`;
-    const image = data.featured_image || getCuratedImage(data.slug, 'state') || `https://northeastforu.com/images/states/${data.slug}.jpg`;
+    const staticData = getStateData(stateSlug);
+    if (!data && !staticData) return { title: 'Not Found' };
+
+    const stateName = data?.name || staticData?.name || 'State';
+    const title = data?.seo_title || `${stateName} Travel Guide | NorthEastForU`;
+    const description = data?.seo_description || staticData?.tagline || `Discover ${stateName}, explore cities, attractions and plan your perfect trip.`;
+    const image = data?.featured_image || getCuratedImage(stateSlug, 'state') || staticData?.featured_image || `https://northeastforu.com/images/states/${stateSlug}.jpg`;
 
     return {
         title,
         description,
         alternates: {
-            canonical: `/${data.slug}`,
+            canonical: `/${data?.slug || stateSlug}`,
         },
         openGraph: {
             title,
             description,
-            url: `https://northeastforu.com/${data.slug}`,
+            url: `https://northeastforu.com/${stateSlug}`,
             siteName: 'NorthEastForU',
             images: [
                 {
                     url: image,
                     width: 1200,
                     height: 630,
-                    alt: data.name,
+                    alt: stateName,
                 },
             ],
             locale: 'en_IN',
@@ -99,54 +104,88 @@ export async function generateMetadata({ params }: { params: Promise<{ state: st
 export default async function StatePage({ params }: { params: Promise<{ state: string }> }) {
     const { state: stateSlug } = await params;
     const state = await fetchStateBySlug(stateSlug);
-    if (!state) notFound();
+    const staticData = getStateData(stateSlug);
 
-    const cities = await getCities(state.id);
-    const attractions = await getAttractionsForState(cities);
-    const tours = await getTours(state.id);
-    const tips = await getTips(state.slug);
+    if (!state && !staticData) notFound();
+
+    const cities = state ? await getCities(state.id) : [];
+    const attractions = cities.length > 0 ? await getAttractionsForState(cities) : [];
+    const tours = state ? await getTours(state.id) : [];
+    const tips = state ? await getTips(state.slug) : [];
+
+    // Merge API + static data, static is the safety net
+    const stateName = state?.name || staticData?.name || stateSlug;
+    const stateTagline = state?.tagline || staticData?.tagline || `Discover the soul of ${stateName}.`;
+    const stateDescription = state?.description || staticData?.description || '';
+    const stateCapital = state?.capital || staticData?.capital || '—';
+    const stateSeason = state?.best_season || staticData?.best_season || 'Oct – Apr';
+    const stateLanguage = state?.language || staticData?.language || '—';
+    const stateSlugFinal = state?.slug || stateSlug;
+
+    // Cities: prefer API, fall back to static
+    const displayCities = cities.length > 0
+        ? cities
+        : (staticData?.cities || []).map((c) => ({
+            id: c.slug,
+            name: c.name,
+            slug: c.slug,
+            description: c.description,
+            featured_image: c.image,
+            best_time_to_visit: c.best_time,
+        }));
+
+    // Attractions: prefer API, fall back to static
+    const displayAttractions = attractions.length > 0
+        ? attractions
+        : (staticData?.attractions || []).map((a) => ({
+            name: a.name,
+            location: a.location,
+            description: a.why_visit,
+            best_time: a.best_time,
+            city: { name: a.location },
+        }));
 
     // Prepare multi-image array for hero
-    const dbGallery = Array.isArray(state.gallery_images) 
-        ? state.gallery_images 
-        : (typeof state.gallery_images === 'string' ? JSON.parse(state.gallery_images) : []);
+    const dbGallery = Array.isArray(state?.gallery_images)
+        ? state.gallery_images
+        : (typeof state?.gallery_images === 'string' ? JSON.parse(state.gallery_images) : []);
 
-    const heroImages = dbGallery.length > 0 
+    const heroImages = dbGallery.length > 0
         ? dbGallery.map((img: string) => ({
             src: img.startsWith('http') ? img : `http://localhost:5006${img}`,
-            label: state.name,
+            label: stateName,
             location: 'Northeast India'
         }))
         : [
-            { 
-                src: state.featured_image || getCuratedImage(state.slug, 'state') || `/images/states/${state.slug}.jpg`, 
-                label: state.name, 
-                location: 'Northeast India' 
+            {
+                src: state?.featured_image || getCuratedImage(stateSlug, 'state') || staticData?.featured_image || `/images/states/${stateSlug}.jpg`,
+                label: stateName,
+                location: 'Northeast India'
             },
-            ...attractions.slice(0, 4).map((a: any) => ({
-                src: a.featured_image || getCuratedImage(a.slug, 'attraction') || `/images/attractions/${a.slug}.jpg`,
+            ...displayAttractions.slice(0, 4).map((a: any) => ({
+                src: a.featured_image || getCuratedImage(a.slug, 'attraction') || `/images/attractions/${a.slug || ''}.jpg`,
                 label: a.name,
-                location: a.city?.name || state.name
+                location: a.city?.name || stateName
             }))
         ];
 
     return (
         <div className="bg-[#fcfdfc] min-h-screen font-sans">
             {/* Sticky Navigation Bar */}
-            <StateStickyBar title={state.name} />
+            <StateStickyBar title={stateName} />
 
             {/* Premium Hero Section - Multi-Image Slider */}
             <HeroSection
-                title={state.name}
-                subtitle={state.tagline || state.description?.slice(0, 120) + '...' || `Discover the soul of ${state.name}.`}
+                title={stateName}
+                subtitle={stateTagline}
                 images={heroImages}
-                slug={state.slug}
+                slug={stateSlugFinal}
                 contentType="state"
                 customClass="h-[45vh] min-h-[350px] max-h-[500px]"
             />
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-10">
-                <Breadcrumbs items={[{ label: state.name, href: `/${state.slug}` }]} />
+                <Breadcrumbs items={[{ label: stateName, href: `/${stateSlugFinal}` }]} />
                 
                 {/* ID-linked section for sticky nav: Discover */}
                 <div id="tab-overview" className="scroll-mt-32">
@@ -160,11 +199,11 @@ export default async function StatePage({ params }: { params: Promise<{ state: s
                                         <span className="text-green-600 font-bold uppercase tracking-wider text-sm">Discover</span>
                                     </div>
                                     <h2 className="text-4xl font-extrabold text-gray-900 mb-6 leading-tight">
-                                        Welcome to {state.name}
+                                        Welcome to {stateName}
                                     </h2>
                                     <div className="prose prose-lg text-gray-600 max-w-none prose-p:leading-relaxed prose-headings:text-gray-900 prose-li:text-gray-600">
                                         <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                                            {state.description}
+                                            {stateDescription}
                                         </ReactMarkdown>
                                     </div>
                                 </section>
@@ -179,7 +218,7 @@ export default async function StatePage({ params }: { params: Promise<{ state: s
                                         </div>
                                         <div>
                                             <h4 className="font-bold text-gray-900">Must Experience</h4>
-                                            <p className="text-sm text-gray-500 mt-1">Unique festivals and cultural traditions of {state.name}.</p>
+                                            <p className="text-sm text-gray-500 mt-1">Unique festivals and cultural traditions of {stateName}.</p>
                                         </div>
                                     </div>
                                     <div className="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow flex gap-4 items-start">
@@ -211,21 +250,21 @@ export default async function StatePage({ params }: { params: Promise<{ state: s
                                             <MapPin className="text-green-600 mt-1" size={20} />
                                             <div>
                                                 <p className="text-xs font-bold text-gray-400 uppercase tracking-wider">Capital</p>
-                                                <p className="text-gray-900 font-bold">{state.capital || '—'}</p>
+                                                <p className="text-gray-900 font-bold">{stateCapital}</p>
                                             </div>
                                         </div>
                                         <div className="flex items-start gap-4 p-4 rounded-2xl bg-gray-50/50">
                                             <Calendar className="text-blue-600 mt-1" size={20} />
                                             <div>
                                                 <p className="text-xs font-bold text-gray-400 uppercase tracking-wider">Best Season</p>
-                                                <p className="text-gray-900 font-bold">{state.best_season || 'Oct - Apr'}</p>
+                                                <p className="text-gray-900 font-bold">{stateSeason}</p>
                                             </div>
                                         </div>
                                         <div className="flex items-start gap-4 p-4 rounded-2xl bg-gray-50/50">
                                             <MoveRight className="text-orange-600 mt-1" size={20} />
                                             <div>
                                                 <p className="text-xs font-bold text-gray-400 uppercase tracking-wider">Language</p>
-                                                <p className="text-gray-900 font-bold">{state.language || '—'}</p>
+                                                <p className="text-gray-900 font-bold">{stateLanguage}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -247,19 +286,19 @@ export default async function StatePage({ params }: { params: Promise<{ state: s
                         <div className="flex justify-between items-end mb-10">
                             <div>
                                 <h2 className="text-3xl font-extrabold text-gray-900 tracking-tight">Iconic Cities & Towns</h2>
-                                <p className="text-gray-500 mt-2">The most beloved destinations in {state.name}.</p>
+                                <p className="text-gray-500 mt-2">The most beloved destinations in {stateName}.</p>
                             </div>
                             <Link href="/explore" className="text-green-600 font-bold flex items-center gap-1 hover:gap-2 transition-all">
                                 All Destiantions <ChevronRight size={18} />
                             </Link>
                         </div>
 
-                        {cities.length > 0 ? (
+                        {displayCities.length > 0 ? (
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                                {cities.map((city: any, idx: number) => (
+                                {displayCities.map((city: any) => (
                                     <Link
-                                        key={city.id}
-                                        href={`/${state.slug}/${city.slug}`}
+                                        key={city.id || city.slug}
+                                        href={`/${stateSlugFinal}/${city.slug}`}
                                         className="group bg-white rounded-[2rem] overflow-hidden border border-gray-100 shadow-sm hover:shadow-2xl transition-all duration-500"
                                     >
                                         <div className="h-64 relative overflow-hidden">
@@ -272,7 +311,7 @@ export default async function StatePage({ params }: { params: Promise<{ state: s
                                             <div className="absolute bottom-5 left-6 z-20">
                                                 <h3 className="text-2xl font-bold text-white mb-1">{city.name}</h3>
                                                 <div className="flex items-center gap-2 text-white/90 text-sm">
-                                                    <Clock size={14} /> <span>{city.best_time_to_visit || 'Most times'}</span>
+                                                    <Clock size={14} /> <span>{city.best_time_to_visit || city.best_time || 'Most times'}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -304,20 +343,17 @@ export default async function StatePage({ params }: { params: Promise<{ state: s
                     <ScrollReveal delay={100}>
                         <div className="mb-10 text-center max-w-2xl mx-auto">
                             <h2 className="text-3xl font-extrabold text-gray-900 tracking-tight">Prime Attractions</h2>
-                            <p className="text-gray-500 mt-2">The must-visit sites that define {state.name}&apos;s identity.</p>
+                            <p className="text-gray-500 mt-2">The must-visit sites that define {stateName}&apos;s identity.</p>
                         </div>
-                        <AttractionTable 
-                            stateName={state.name} 
-                            attractions={attractions.length > 0 ? attractions.slice(0, 10).map(a => ({
+                        <AttractionTable
+                            stateName={stateName}
+                            attractions={displayAttractions.slice(0, 10).map((a: any) => ({
                                 name: a.name,
-                                location: a.city?.name || state.name,
-                                why_visit: a.description?.slice(0, 120) + '...' || 'Breathtaking beauty and cultural significance.',
-                                best_time: a.best_time || 'Oct - Apr',
+                                location: a.city?.name || a.location || stateName,
+                                why_visit: a.description?.slice(0, 140) + (a.description?.length > 140 ? '...' : '') || a.why_visit || 'Breathtaking beauty and cultural significance.',
+                                best_time: a.best_time || 'Oct – Apr',
                                 rating: 5
-                            })) : [
-                                { name: "Main Landmark", location: "Central Hub", why_visit: `The heart of ${state.name} offering breathtaking panoramic views.`, best_time: "Oct - Mar", rating: 5 },
-                                { name: "Cultural Center", location: "Capitol", why_visit: "Experience authentic traditions and local crafts.", best_time: "Year round", rating: 4 }
-                            ]} 
+                            }))}
                         />
                     </ScrollReveal>
                 </div>
@@ -334,7 +370,7 @@ export default async function StatePage({ params }: { params: Promise<{ state: s
                                         <Wallet className="text-green-600" size={18} />
                                         <span className="text-sm font-bold text-green-600 uppercase tracking-widest">Handcrafted</span>
                                     </div>
-                                    <h3 className="text-3xl font-extrabold text-gray-900 tracking-tight">{state.name} Exclusives</h3>
+                                    <h3 className="text-3xl font-extrabold text-gray-900 tracking-tight">{stateName} Exclusives</h3>
                                     <p className="text-gray-500 mt-2 italic">Curated itineraries designed for authentic experiences.</p>
                                 </div>
                                 <Link href="/itineraries" className="bg-gray-900 text-white px-8 py-4 rounded-2xl font-bold flex items-center gap-2 hover:bg-black transition-all">
@@ -365,10 +401,10 @@ export default async function StatePage({ params }: { params: Promise<{ state: s
                                     <>
                                         <div className="group bg-gray-50/50 rounded-3xl p-6 flex flex-col sm:flex-row gap-6 hover:bg-green-50 transition-colors">
                                             <div className="w-full sm:w-40 h-40 rounded-2xl overflow-hidden flex-shrink-0">
-                                                <SmartImage src="" alt="Package" className="w-full h-full" fallbackType="nature" searchKeyword={`${state.name} tour`} />
+                                                <SmartImage src="" alt="Package" className="w-full h-full" fallbackType="nature" searchKeyword={`${stateName} tour`} />
                                             </div>
                                             <div className="flex-grow py-2">
-                                                <h3 className="text-xl font-bold text-gray-900 group-hover:text-green-700 transition-colors">Essential {state.name}</h3>
+                                                <h3 className="text-xl font-bold text-gray-900 group-hover:text-green-700 transition-colors">Essential {stateName}</h3>
                                                 <p className="text-sm text-gray-500 mt-2 line-clamp-2">A comprehensive journey covering major highlights.</p>
                                                 <div className="mt-4 flex items-center justify-between">
                                                     <span className="text-xs font-bold text-gray-400">5 Days · 4 Nights</span>
@@ -378,7 +414,7 @@ export default async function StatePage({ params }: { params: Promise<{ state: s
                                         </div>
                                         <div className="group bg-gray-50/50 rounded-3xl p-6 flex flex-col sm:flex-row gap-6 hover:bg-green-50 transition-colors">
                                             <div className="w-full sm:w-40 h-40 rounded-2xl overflow-hidden flex-shrink-0">
-                                                <SmartImage src="" alt="Package" className="w-full h-full" fallbackType="adventure" searchKeyword={`${state.name} trekking`} />
+                                                <SmartImage src="" alt="Package" className="w-full h-full" fallbackType="adventure" searchKeyword={`${stateName} trekking`} />
                                             </div>
                                             <div className="flex-grow py-2">
                                                 <h3 className="text-xl font-bold text-gray-900 group-hover:text-green-700 transition-colors">Heritage trail</h3>
@@ -428,7 +464,7 @@ export default async function StatePage({ params }: { params: Promise<{ state: s
                                     <Info className="text-blue-500 flex-shrink-0" size={24} />
                                     <div>
                                         <h4 className="font-bold text-gray-900">Permits Required</h4>
-                                        <p className="text-gray-600 text-sm mt-1">Some regions in {state.name} require an Inner Line Permit (ILP) for visitors.</p>
+                                        <p className="text-gray-600 text-sm mt-1">Some regions in {stateName} require an Inner Line Permit (ILP) for visitors.</p>
                                     </div>
                                 </div>
                             </div>
@@ -441,7 +477,7 @@ export default async function StatePage({ params }: { params: Promise<{ state: s
                             <ArrowRight className="text-green-600" size={28} />
                             <h2 className="text-3xl font-extrabold text-gray-900">FAQ</h2>
                         </div>
-                        <DetailedFAQ pageSlug={state.slug} pageType="state" />
+                        <DetailedFAQ pageSlug={stateSlugFinal} pageType="state" />
                     </div>
                 </div>
 
@@ -457,7 +493,7 @@ export default async function StatePage({ params }: { params: Promise<{ state: s
                             <div className="relative z-10 max-w-2xl mx-auto">
                                 <span className="bg-green-500/20 text-green-400 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest border border-green-500/30">Start Your Journey</span>
                                 <h2 className="text-4xl md:text-5xl font-black text-white mt-6 mb-8 leading-tight">
-                                    Ready to explore the wonders of {state.name}?
+                                    Ready to explore the wonders of {stateName}?
                                 </h2>
                                 <p className="text-green-100 text-lg mb-12 opacity-80">
                                     Get a personalized itinerary crafted by local experts to make your North East trip unforgettable.

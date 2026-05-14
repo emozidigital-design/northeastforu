@@ -1,20 +1,21 @@
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5006/api';
 
 async function fetchAPI(endpoint: string, options: RequestInit = {}) {
-    const res = await fetch(`${API_URL}${endpoint}`, {
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers,
-        },
-    });
+    try {
+        const res = await fetch(`${API_URL}${endpoint}`, {
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers,
+            },
+        });
 
-    if (!res.ok) {
-        if (res.status === 404) return null;
-        throw new Error(`API Error: ${res.status} ${res.statusText}`);
+        if (!res.ok) return null;
+
+        return res.json();
+    } catch {
+        return null;
     }
-
-    return res.json();
 }
 
 export async function fetchStates() {

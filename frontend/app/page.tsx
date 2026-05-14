@@ -1,8 +1,12 @@
+export const dynamic = 'force-dynamic';
+
 import HeroSection from '@/components/ui/HeroSection';
 import CardGrid from '@/components/ui/CardGrid';
+import StateCard from '@/components/ui/StateCard';
 import { fetchStates, fetchAllBlogs, fetchAllItineraries } from '@/lib/api';
 import ScrollReveal from '@/components/ui/ScrollReveal';
 import { getCuratedImage } from '@/lib/curatedImages';
+import { getAllStatesData } from '@/lib/stateData';
 import USPSection from '@/components/ui/USPSection';
 import BentoDestinations from '@/components/ui/BentoDestinations';
 import FeaturedCarousel from '@/components/ui/FeaturedCarousel';
@@ -14,14 +18,19 @@ export default async function Home() {
     const itinerariesRes = await fetchAllItineraries();
     const itineraries = itinerariesRes?.data || [];
 
-    const statesData = states.map((s: any) => {
-        const curatedFallback = getCuratedImage(s.slug, 'state');
-        const imageUrl = s.featured_image || curatedFallback || '';
+    const staticStates = getAllStatesData();
+
+    // Merge API states with static data: API data wins on image/description when available
+    const statesData = staticStates.map((staticState) => {
+        const apiState = states.find((s: any) => s.slug === staticState.slug);
+        const curatedFallback = getCuratedImage(staticState.slug, 'state');
         return {
-            title: s.name,
-            slug: s.slug,
-            image: imageUrl,
-            description: s.description
+            slug: staticState.slug,
+            name: apiState?.name || staticState.name,
+            image: apiState?.featured_image || curatedFallback || staticState.featured_image || '',
+            theme: staticState.theme,
+            best_season: apiState?.best_season || staticState.best_season,
+            city_count: staticState.cities.length,
         };
     });
 
@@ -70,7 +79,19 @@ export default async function Home() {
                                 </p>
                             </div>
                         </div>
-                        <CardGrid items={statesData} type="state" />
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                            {statesData.map((state) => (
+                                <StateCard
+                                    key={state.slug}
+                                    name={state.name}
+                                    slug={state.slug}
+                                    image={state.image}
+                                    theme={state.theme}
+                                    best_season={state.best_season}
+                                    city_count={state.city_count}
+                                />
+                            ))}
+                        </div>
                     </div>
                 </section>
             </ScrollReveal>
