@@ -49,11 +49,11 @@ export default function BentoDestinations({ destinations }: { destinations?: any
                 <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
                     <div>
                         <div className="flex items-center gap-3 mb-3">
-                            <span className="h-[2px] w-12 bg-green-600 block"></span>
+                            <span className="h-[2px] w-12 bg-[#7fff27] block"></span>
                             <span className="text-green-600 font-bold uppercase tracking-widest text-sm">Curated Experiences</span>
                         </div>
                         <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight font-display">
-                            Must-Do in the <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-400">North East</span>
+                            Must-Do in the <br/><span className="text-[#16a34a]">North <span className="text-[#7fff27]">East</span></span>
                         </h2>
                     </div>
                 </div>

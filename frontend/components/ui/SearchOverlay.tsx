@@ -93,20 +93,20 @@ const SearchOverlay: React.FC = () => {
                 <X size={32} />
             </button>
 
-            <div className="w-full max-w-3xl relative z-10">
+            <div className="w-full max-w-lg ml-auto mr-4 sm:mr-12 relative z-10">
                 <div className="relative mb-10 group">
-                    <SearchIcon className="absolute left-6 top-1/2 -translate-y-1/2 text-white/50 group-focus-within:text-white transition-colors" size={28} />
+                    <SearchIcon className="absolute left-6 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-green-600 transition-colors" size={22} />
                     <input
                         ref={inputRef}
                         type="text"
                         placeholder="Search North East India..."
-                        className="w-full bg-white/10 backdrop-blur-2xl text-white text-3xl px-20 py-8 rounded-[2.5rem] focus:outline-none focus:ring-4 focus:ring-white/20 border border-white/20 shadow-[0_32px_64px_-12px_rgba(0,0,0,0.5)] transition-all placeholder:text-white/30 font-display"
+                        className="w-full bg-white text-gray-900 text-xl px-16 py-6 rounded-2xl focus:outline-none focus:ring-4 focus:ring-green-500/20 border border-gray-200 shadow-2xl transition-all placeholder:text-gray-400 font-sans"
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
                     />
                     {loading && (
-                        <div className="absolute right-8 top-1/2 -translate-y-1/2">
-                            <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                        <div className="absolute right-6 top-1/2 -translate-y-1/2">
+                            <div className="w-5 h-5 border-2 border-gray-200 border-t-green-600 rounded-full animate-spin"></div>
                         </div>
                     )}
                 </div>

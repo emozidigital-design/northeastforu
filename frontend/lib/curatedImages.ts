@@ -99,29 +99,29 @@ export const ATTRACTION_IMAGES: Record<string, string> = {
 // Hero slideshow: 5 stunning NE India showcases
 export const HERO_SLIDES = [
     {
-        src: 'https://images.unsplash.com/photo-1544735716-392fe2486ffe?auto=format&fit=crop&w=1920&q=85',
-        label: 'Tea Gardens of Assam',
+        src: '/images/kaziranga.png',
+        label: 'Wild Safaris at Kaziranga',
         location: 'Assam',
     },
     {
-        src: 'https://images.unsplash.com/photo-1627915509748-0ca979147551?auto=format&fit=crop&w=1920&q=85',
-        label: 'Waterfalls & Living Bridges',
+        src: '/images/double-decker-root-bridge.png',
+        label: 'Ancient Living Root Bridges',
         location: 'Meghalaya',
     },
     {
-        src: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1920&q=85',
-        label: 'Peaks of Kanchenjunga',
-        location: 'Sikkim',
-    },
-    {
-        src: 'https://images.unsplash.com/photo-1606298855672-3efb63017be8?auto=format&fit=crop&w=1920&q=85',
-        label: 'Tawang Monastery',
+        src: '/images/ziro-valley.png',
+        label: 'The Serene Ziro Valley',
         location: 'Arunachal Pradesh',
     },
     {
-        src: 'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=1920&q=85',
-        label: 'Loktak Lake',
-        location: 'Manipur',
+        src: '/images/hornbill-festival.png',
+        label: 'The Vibrant Hornbill Festival',
+        location: 'Nagaland',
+    },
+    {
+        src: '/images/bomdila.png',
+        label: 'Majestic Peaks of Bomdila',
+        location: 'Arunachal Pradesh',
     },
 ];
 

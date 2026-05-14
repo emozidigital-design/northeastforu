@@ -117,7 +117,7 @@ export default function ChatWidget() {
             {isOpen && (
                 <div className="w-[350px] sm:w-[400px] h-[600px] max-h-[85vh] bg-white rounded-3xl shadow-2xl border border-gray-100 flex flex-col mb-4 overflow-hidden animate-in slide-in-from-bottom-5">
                     {/* Header */}
-                    <div className="bg-gradient-to-r from-[#1a6b3c] to-green-600 p-4 flex justify-between items-center text-white shrink-0">
+                    <div className="bg-[#1a6b3c] p-4 flex justify-between items-center text-white shrink-0">
                         <div className="flex items-center gap-3">
                             <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-md">
                                 <Bot size={24} className="text-white" />
@@ -315,7 +315,7 @@ export default function ChatWidget() {
             {!isOpen && (
                 <button 
                     onClick={() => setIsOpen(true)}
-                    className="w-14 h-14 bg-gradient-to-r from-[#1a6b3c] to-green-600 rounded-full shadow-xl shadow-green-900/20 text-white flex items-center justify-center hover:scale-105 transition-transform duration-300 relative group z-[100]"
+                    className="w-14 h-14 bg-[#7fff27] rounded-full shadow-xl shadow-[#7fff27]/20 text-black flex items-center justify-center hover:scale-105 transition-transform duration-300 relative group z-[100]"
                 >
                     <MessageSquare size={24} />
                     {/* Notification Dot */}

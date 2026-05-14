@@ -1,0 +1,87 @@
+.pageHeader { margin-bottom: 28px; }
+.title { font-size: 22px; font-weight: 800; color: #0f172a; }
+.sub { font-size: 14px; color: #94a3b8; margin-top: 4px; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition: box-shadow 0.15s;
+}
+
+.card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+
+.cardIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.cardValue { font-size: 26px; font-weight: 800; color: #0f172a; line-height: 1; }
+.cardLabel { font-size: 13px; color: #94a3b8; margin-top: 4px; }
+
+.recentSection {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 24px;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.sectionHeader h2 { font-size: 16px; font-weight: 700; color: #0f172a; }
+.sectionHeader svg { color: #22c55e; }
+
+.loading, .empty { font-size: 14px; color: #94a3b8; padding: 20px 0; }
+
+.leadList { display: flex; flex-direction: column; gap: 2px; }
+
+.leadRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.leadRow:last-child { border-bottom: none; }
+
+.leadInfo { display: flex; flex-direction: column; gap: 2px; }
+.leadName { font-size: 14px; font-weight: 600; color: #1e293b; }
+.leadEmail { font-size: 12px; color: #94a3b8; }
+
+.leadMeta { display: flex; align-items: center; gap: 12px; }
+.leadDest { font-size: 13px; color: #64748b; }
+
+.badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+  text-transform: capitalize;
+}
+
+.new { background: #eff6ff; color: #3b82f6; }
+.contacted { background: #fef9c3; color: #ca8a04; }
+.confirmed { background: #f0fdf4; color: #16a34a; }
+.cancelled { background: #fef2f2; color: #dc2626; }

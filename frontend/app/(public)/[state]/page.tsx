@@ -12,6 +12,7 @@ import InsiderTipCard from '@/components/ui/InsiderTipCard';
 import { getCuratedImage } from '@/lib/curatedImages';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import Breadcrumbs from '@/components/ui/Breadcrumbs';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5006/api';
 

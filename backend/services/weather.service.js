@@ -24,14 +24,22 @@ class LocalCache {
 }
 
 let redis;
+let redisFailed = false;
 try {
-    redis = new Redis(process.env.REDIS_URL || 'redis://localhost:6379');
-    redis.on('error', (err) => {
-        console.warn('Redis error, switching to local cache:', err.message);
-        redis = new LocalCache();
+    const redisClient = new Redis(process.env.REDIS_URL || 'redis://localhost:6379', {
+        lazyConnect: true,
+        enableOfflineQueue: false,
     });
+    redisClient.on('error', () => {
+        if (!redisFailed) {
+            redisFailed = true;
+            console.warn('Redis unavailable, using local cache instead.');
+            redis = new LocalCache();
+        }
+    });
+    redis = redisClient;
 } catch (e) {
-    console.warn('Redis not available, switching to local cache');
+    console.warn('Redis not available, using local cache instead.');
     redis = new LocalCache();
 }
 
