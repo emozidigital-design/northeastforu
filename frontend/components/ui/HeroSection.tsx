@@ -15,6 +15,7 @@ export default function HeroSection({
     image,
     slug,
     contentType,
+    minimal = false,
 }: {
     title: string;
     subtitle: string;
@@ -24,6 +25,7 @@ export default function HeroSection({
     slug?: string;
     contentType?: 'state' | 'city' | 'attraction';
     customClass?: string;
+    minimal?: boolean;
 }) {
 
     // If a single image is provided, wrap it in the expected slides format for the background engine
@@ -60,6 +62,33 @@ export default function HeroSection({
     const goTo = (idx: number) => {
         setCurrent(idx);
     };
+
+    if (minimal) {
+        return (
+            <section className={`relative ${customClass ? customClass : 'h-screen min-h-[560px] max-h-[900px]'} flex items-center justify-center overflow-hidden`}>
+                {/* Sliding background images */}
+                <AnimatePresence mode="wait">
+                    <motion.div
+                        key={current}
+                        initial={{ x: '100%' }}
+                        animate={{ x: 0 }}
+                        exit={{ x: '-100%' }}
+                        transition={{ duration: 0.4, ease: 'easeInOut', delay: 0 }}
+                        className="absolute inset-0 z-0 bg-cover bg-center"
+                        style={{ backgroundImage: `url(${slides[current].src})` }}
+                    />
+                </AnimatePresence>
+
+                {/* Dark overlay */}
+                <div className="absolute inset-0 z-[2] bg-black/30" />
+
+                {/* State name only */}
+                <h1 className="relative z-[3] text-white text-5xl md:text-7xl lg:text-8xl font-extrabold text-center drop-shadow-2xl leading-tight px-4">
+                    {title}
+                </h1>
+            </section>
+        );
+    }
 
     return (
         <section className={`relative ${customClass ? customClass : 'h-screen min-h-[560px] max-h-[900px]'} flex items-center justify-center overflow-hidden`}>

@@ -184,6 +184,7 @@ export default async function StatePage({ params }: { params: Promise<{ state: s
                 slug={stateSlugFinal}
                 contentType="state"
                 customClass="h-[45vh] min-h-[350px] max-h-[500px]"
+                minimal={true}
             />
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-10">
