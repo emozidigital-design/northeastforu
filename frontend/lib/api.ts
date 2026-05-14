@@ -1,3 +1,6 @@
+import { STATIC_BLOGS, getBlogBySlug as getStaticBlog } from './blogData';
+import { STATIC_ITINERARIES, getItineraryBySlug as getStaticItinerary } from './itineraryData';
+
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5006/api';
 
 async function fetchAPI(endpoint: string, options: RequestInit = {}) {
@@ -64,20 +67,26 @@ export async function fetchAllActivities() {
 
 export async function fetchBlogBySlug(slug: string) {
     const res = await fetchAPI(`/blogs/${slug}`, { next: { revalidate: 3600 } });
-    return res?.data || null;
+    if (res?.data) return res.data;
+    return getStaticBlog(slug);
 }
 
 export async function fetchAllBlogs() {
-    return fetchAPI('/blogs', { next: { revalidate: 30 } });
+    const res = await fetchAPI('/blogs', { next: { revalidate: 30 } });
+    if (res?.data?.length) return res;
+    return { data: STATIC_BLOGS };
 }
 
 export async function fetchAllItineraries() {
-    return fetchAPI('/itineraries', { next: { revalidate: 3600 } });
+    const res = await fetchAPI('/itineraries', { next: { revalidate: 3600 } });
+    if (res?.data?.length) return res;
+    return { data: STATIC_ITINERARIES };
 }
 
 export async function fetchItineraryBySlug(slug: string) {
     const res = await fetchAPI(`/itineraries/${slug}`, { next: { revalidate: 3600 } });
-    return res?.data || null;
+    if (res?.data) return res.data;
+    return getStaticItinerary(slug);
 }
 
 export async function searchAPI(query: string) {

@@ -14,7 +14,8 @@ import Link from 'next/link';
 import { BookOpen } from 'lucide-react';
 
 export default async function Home() {
-    const { data: states = [] } = await fetchStates();
+    const statesRes = await fetchStates();
+    const states: any[] = statesRes?.data || [];
     const itinerariesRes = await fetchAllItineraries();
     const itineraries = itinerariesRes?.data || [];
 
