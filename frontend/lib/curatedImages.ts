@@ -7,38 +7,14 @@
  */
 
 export const STATE_IMAGES: Record<string, string> = {
-    assam:
-        'https://images.unsplash.com/photo-1544735716-392fe2486ffe?auto=format&fit=crop&w=800&q=85',
-    // Assam: lush tea garden rows — very recognisable
-
-    'arunachal-pradesh':
-        'https://images.unsplash.com/photo-1606298855672-3efb63017be8?auto=format&fit=crop&w=1200&q=85',
-    // Arunachal Pradesh: Tawang Monastery view — very iconic
-
-    meghalaya:
-        'https://images.unsplash.com/photo-1627915509748-0ca979147551?auto=format&fit=crop&w=800&q=85',
-    // Meghalaya: cascading waterfall in lush green hills
-
-    manipur:
-        'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=800&q=85',
-    // Manipur: serene Loktak Lake with floating phumdis
-
-    mizoram:
-        'https://images.unsplash.com/photo-1596422846543-75c6fc18a5cf?auto=format&fit=crop&w=800&q=85',
-    // Mizoram: terraced green hill landscape
-
-    nagaland:
-        'https://images.unsplash.com/photo-1540611025311-01df3cef54b5?auto=format&fit=crop&w=800&q=85',
-    // Nagaland: tribal culture, vibrant colors
-
-    tripura:
-        'https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=800&q=85',
-    // Tripura: ornate temple architecture
-
-    sikkim:
-        'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=800&q=85',
-    // Sikkim: snow-capped Kanchenjunga peaks and monastery
-
+    assam: '/images/assam/assam-1.jpg',
+    'arunachal-pradesh': '/images/arunachal-pradesh/arunachal-pradesh-1.jpg',
+    meghalaya: '/images/meghalaya/meghalaya-1.jpg',
+    manipur: '/images/manipur/manipur-1.jpg',
+    mizoram: '/images/mizoram/mizoram-1.jpg',
+    nagaland: '/images/nagaland/nagaland-1.jpg',
+    tripura: '/images/tripura/tripura-1.jpg',
+    sikkim: '/images/sikkim/sikkim-1.jpg',
     'west-bengal':
         'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=800&q=85',
 };

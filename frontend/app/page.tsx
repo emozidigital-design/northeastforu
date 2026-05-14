@@ -25,10 +25,14 @@ export default async function Home() {
     const statesData = staticStates.map((staticState) => {
         const apiState = states.find((s: any) => s.slug === staticState.slug);
         const curatedFallback = getCuratedImage(staticState.slug, 'state');
+        // Only use API image if it's a real external URL (not a localhost/relative path)
+        const apiImage = apiState?.featured_image?.startsWith('http') && !apiState.featured_image.includes('localhost')
+            ? apiState.featured_image
+            : null;
         return {
             slug: staticState.slug,
             name: apiState?.name || staticState.name,
-            image: apiState?.featured_image || staticState.featured_image || curatedFallback || '',
+            image: apiImage || staticState.featured_image || curatedFallback || '',
             theme: staticState.theme,
             best_season: apiState?.best_season || staticState.best_season,
             city_count: staticState.cities.length,
