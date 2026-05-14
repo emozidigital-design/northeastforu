@@ -13,6 +13,12 @@ export interface AttractionData {
   best_time: string;
 }
 
+export interface HeroImage {
+  src: string;
+  label: string;
+  location: string;
+}
+
 export interface StateStaticData {
   name: string;
   slug: string;
@@ -23,6 +29,7 @@ export interface StateStaticData {
   best_season: string;
   theme: string;
   featured_image: string;
+  hero_images?: HeroImage[];
   cities: CityData[];
   attractions: AttractionData[];
 }
@@ -37,6 +44,13 @@ const STATE_DATA: StateStaticData[] = [
     language: 'Assamese',
     best_season: 'Oct – Apr',
     featured_image: '/images/assam/assam-1.jpg',
+    hero_images: [
+      { src: '/images/assam/assam-1.jpg', label: 'Assam', location: 'Northeast India' },
+      { src: '/images/assam/assam-2.jpg', label: 'Brahmaputra Valley', location: 'Assam' },
+      { src: '/images/assam/assam-3.jpg', label: 'Assam', location: 'Northeast India' },
+      { src: '/images/assam/Kaziranga 1.jpg', label: 'Kaziranga National Park', location: 'Kaziranga' },
+      { src: '/images/assam/Guwahati 1.jpg', label: 'Guwahati', location: 'Guwahati' },
+    ],
     description: `Assam is the gateway to North East India and one of the region's most culturally rich and naturally diverse destinations. Known for its vast tea estates, wildlife reserves, river islands, spiritual heritage, and vibrant traditions, Assam offers experiences that combine nature, history, adventure, and local culture.
 
 The state is home to the mighty Brahmaputra River, which shapes its landscapes, festivals, agriculture, and daily life. From the bustling city life of Guwahati to the wilderness of Kaziranga and Manas National Parks, Assam provides a balanced mix of urban exploration and offbeat travel.
@@ -128,6 +142,13 @@ Whether you are looking for wildlife adventures, peaceful countryside escapes, p
     language: 'Nyishi, Bengali, Hindi',
     best_season: 'Oct – Apr',
     featured_image: '/images/arunachal-pradesh/arunachal-pradesh-1.jpg',
+    hero_images: [
+      { src: '/images/arunachal-pradesh/arunachal-pradesh-1.jpg', label: 'Arunachal Pradesh', location: 'Northeast India' },
+      { src: '/images/arunachal-pradesh/arunachal-pradesh-2.jpg', label: 'Land of Dawn-Lit Mountains', location: 'Arunachal Pradesh' },
+      { src: '/images/arunachal-pradesh/arunachal-pradesh-3.jpg', label: 'Arunachal Pradesh', location: 'Northeast India' },
+      { src: '/images/arunachal-pradesh/tawang.jpg', label: 'Tawang Monastery', location: 'Tawang' },
+      { src: '/images/arunachal-pradesh/ziro1.jpg', label: 'Ziro Valley', location: 'Ziro Valley' },
+    ],
     description: `Arunachal Pradesh is the largest state in North East India and one of the country's most spectacular mountain destinations. Known for its snow-covered passes, monasteries, valleys, tribal culture, forests, and remote Himalayan landscapes, the state offers some of the most scenic travel experiences in India.
 
 Bordering Bhutan, China, and Myanmar, Arunachal Pradesh is home to diverse tribal communities, ancient Buddhist traditions, dense biodiversity zones, and untouched natural environments. The state is widely known for destinations such as Tawang, Ziro Valley, Mechuka, and Namdapha National Park.
@@ -212,6 +233,12 @@ Its remote beauty, cultural richness, and adventure opportunities make Arunachal
     best_season: 'Oct – May',
     featured_image:
       'https://images.unsplash.com/photo-1627915509748-0ca979147551?auto=format&fit=crop&w=1200&q=85',
+    hero_images: [
+      { src: 'https://images.unsplash.com/photo-1627915509748-0ca979147551?auto=format&fit=crop&w=1200&q=85', label: 'Meghalaya', location: 'Northeast India' },
+      { src: 'https://images.unsplash.com/photo-1553789966-7fdc34a9ada0?auto=format&fit=crop&w=1200&q=85', label: 'Nohkalikai Falls', location: 'Cherrapunji' },
+      { src: 'https://images.unsplash.com/photo-1611116524846-3c89e8b75594?auto=format&fit=crop&w=1200&q=85', label: 'Shillong', location: 'Shillong' },
+      { src: 'https://images.unsplash.com/photo-1588614461853-cf6ed80faba5?auto=format&fit=crop&w=1200&q=85', label: 'Dawki River', location: 'Dawki' },
+    ],
     description: `Meghalaya is one of the most scenic states in North East India, known for its rolling hills, waterfalls, caves, cloud-covered landscapes, and rich tribal culture. Often called the "Abode of Clouds," the state offers a combination of natural beauty, adventure tourism, and cultural experiences.
 
 The state is famous for destinations such as Shillong, Cherrapunji, Dawki, Mawlynnong, and Mawsynram, each offering unique landscapes and travel experiences. Meghalaya is home to some of the wettest places on Earth, spectacular waterfalls, crystal-clear rivers, ancient living root bridges, and dense forests.
@@ -292,6 +319,13 @@ With pleasant weather, scenic drives, and diverse attractions, Meghalaya remains
     language: 'Meitei, English',
     best_season: 'Oct – Mar',
     featured_image: '/images/manipur/manipur-1.jpg',
+    hero_images: [
+      { src: '/images/manipur/manipur-1.jpg', label: 'Manipur', location: 'Northeast India' },
+      { src: '/images/manipur/manipur-2.jpg', label: 'Jewel of India', location: 'Manipur' },
+      { src: '/images/manipur/manipur-3.jpg', label: 'Manipur', location: 'Northeast India' },
+      { src: '/images/manipur/Loktak 1.jpg', label: 'Loktak Lake', location: 'Loktak' },
+      { src: '/images/manipur/Imphal 1.jpg', label: 'Imphal', location: 'Imphal' },
+    ],
     description: `Manipur is a culturally rich and naturally beautiful state in North East India, known for its lakes, floating islands, mountain landscapes, classical dance traditions, and historical significance. Surrounded by hills and valleys, the state offers a diverse mix of nature, heritage, and cultural tourism.
 
 The state is famous for destinations such as Loktak Lake, Imphal, Ukhrul, and Moirang, each offering unique experiences ranging from scenic landscapes to historical landmarks. Manipur is also widely recognized for its traditional art forms, handloom culture, martial arts, and sports heritage.
@@ -368,6 +402,11 @@ With its unique identity and scenic environment, Manipur offers immersive travel
     best_season: 'Oct – Mar',
     featured_image:
       'https://images.unsplash.com/photo-1596422846543-75c6fc18a5cf?auto=format&fit=crop&w=1200&q=85',
+    hero_images: [
+      { src: 'https://images.unsplash.com/photo-1596422846543-75c6fc18a5cf?auto=format&fit=crop&w=1200&q=85', label: 'Mizoram', location: 'Northeast India' },
+      { src: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1200&q=85', label: 'Blue Mountains', location: 'Mizoram' },
+      { src: 'https://images.unsplash.com/photo-1544735716-392fe2486ffe?auto=format&fit=crop&w=1200&q=85', label: 'Champhai Valley', location: 'Champhai' },
+    ],
     description: `Mizoram is one of the most peaceful and scenic states in North East India, known for its rolling hills, dense forests, waterfalls, tribal culture, and panoramic mountain landscapes. Surrounded by Myanmar and Bangladesh, the state offers a unique blend of natural beauty, cultural richness, and offbeat travel experiences.
 
 The state is characterized by winding hill roads, green valleys, bamboo forests, and picturesque villages spread across mountain ridges. Mizoram is also known for its strong community culture, clean towns, and warm hospitality.

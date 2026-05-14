@@ -156,6 +156,8 @@ export default async function StatePage({ params }: { params: Promise<{ state: s
             label: stateName,
             location: 'Northeast India'
         }))
+        : staticData?.hero_images && staticData.hero_images.length > 0
+        ? staticData.hero_images
         : [
             {
                 src: state?.featured_image || getCuratedImage(stateSlug, 'state') || staticData?.featured_image || `/images/states/${stateSlug}.jpg`,
