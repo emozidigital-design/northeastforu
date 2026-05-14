@@ -37,7 +37,6 @@ export default function SmartImage({
     ...props
 }: SmartImageProps) {
     const [error, setError] = useState(false);
-    const isLocal = !!(src && (src.startsWith('/images') || src.startsWith('/assets')));
 
     // 1. Try curated image by slug
     // 2. Fall back to type-based Unsplash image
@@ -48,11 +47,7 @@ export default function SmartImage({
 
     const ultimateFallback = curatedFallback || fallbacks[fallbackType];
 
-    // In development, if it's a local /images path, we often don't have it yet.
-    // Use the curated/ultimate fallback instead of showing a 404 or broken image.
-    const finalSrc = (error || !src || (isLocal && process.env.NODE_ENV === 'development'))
-        ? ultimateFallback
-        : src;
+    const finalSrc = (error || !src) ? ultimateFallback : src;
 
     return (
         <div className={`relative overflow-hidden ${className}`}>
@@ -63,7 +58,7 @@ export default function SmartImage({
                 className={`transition-opacity duration-500 ${objectFit === 'cover' ? 'object-cover' : 'object-contain'}`}
                 onError={() => setError(true)}
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                unoptimized={!isLocal}
+                unoptimized={true}
                 {...props}
             />
         </div>
