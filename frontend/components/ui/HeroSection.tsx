@@ -67,7 +67,7 @@ export default function HeroSection({
         return (
             <section className={`relative ${customClass ? customClass : 'h-screen min-h-[560px] max-h-[900px]'} flex items-center justify-center overflow-hidden`}>
                 {/* Sliding background images */}
-                <AnimatePresence mode="wait">
+                <AnimatePresence mode="sync">
                     <motion.div
                         key={current}
                         initial={{ x: '100%' }}
