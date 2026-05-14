@@ -28,7 +28,7 @@ export default async function Home() {
         return {
             slug: staticState.slug,
             name: apiState?.name || staticState.name,
-            image: apiState?.featured_image || curatedFallback || staticState.featured_image || '',
+            image: apiState?.featured_image || staticState.featured_image || curatedFallback || '',
             theme: staticState.theme,
             best_season: apiState?.best_season || staticState.best_season,
             city_count: staticState.cities.length,
