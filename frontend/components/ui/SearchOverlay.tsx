@@ -77,105 +77,121 @@ const SearchOverlay: React.FC = () => {
     const navigateTo = (type: string, slug: string) => {
         setIsOpen(false);
         setQuery('');
-        // Actual paths would depend on structure
         router.push(`/${slug}`);
     };
 
+    const hasResults = results && Object.values(results).some((arr) => (arr as SearchItem[]).length > 0);
+
     return (
-        <div className="fixed inset-0 z-[10001] bg-slate-900/30 backdrop-blur-[64px] saturate-[1.8] animate-in zoom-in-95 fade-in duration-300 flex flex-col items-center pt-24 px-4 sm:px-8">
-            {/* iOS Glass Glare Effect */}
-            <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent pointer-events-none mix-blend-overlay"></div>
-            
-            <button
-                className="absolute top-8 right-8 text-white/50 hover:text-white transition-colors bg-white/10 hover:bg-white/20 backdrop-blur-md p-3 rounded-full border border-white/10 shadow-lg"
+        <>
+            {/* Invisible backdrop to close on outside click */}
+            <div
+                className="fixed inset-0 z-[10000]"
                 onClick={() => setIsOpen(false)}
-            >
-                <X size={32} />
-            </button>
+            />
 
-            <div className="w-full max-w-lg ml-auto mr-4 sm:mr-12 relative z-10">
-                <div className="relative mb-10 group">
-                    <SearchIcon className="absolute left-6 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-green-600 transition-colors" size={22} />
-                    <input
-                        ref={inputRef}
-                        type="text"
-                        placeholder="Search North East India..."
-                        className="w-full bg-white text-gray-900 text-xl px-16 py-6 rounded-2xl focus:outline-none focus:ring-4 focus:ring-green-500/20 border border-gray-200 shadow-2xl transition-all placeholder:text-gray-400 font-sans"
-                        value={query}
-                        onChange={(e) => setQuery(e.target.value)}
-                    />
-                    {loading && (
-                        <div className="absolute right-6 top-1/2 -translate-y-1/2">
-                            <div className="w-5 h-5 border-2 border-gray-200 border-t-green-600 rounded-full animate-spin"></div>
-                        </div>
-                    )}
-                </div>
+            {/* Compact search panel below navbar */}
+            <div className="fixed top-[60px] left-0 right-0 z-[10001] bg-white shadow-xl border-b border-gray-200 animate-in slide-in-from-top-1 duration-150">
+                <div className="max-w-3xl mx-auto px-4 py-3">
+                    {/* Search input row */}
+                    <div className="relative flex items-center">
+                        <SearchIcon
+                            className="absolute left-4 text-gray-400 pointer-events-none"
+                            size={18}
+                        />
+                        <input
+                            ref={inputRef}
+                            type="text"
+                            placeholder="Search North East India..."
+                            className="w-full bg-gray-50 text-gray-900 text-base pl-11 pr-10 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500/30 border border-gray-200 transition-all placeholder:text-gray-400"
+                            value={query}
+                            onChange={(e) => setQuery(e.target.value)}
+                        />
+                        {loading && (
+                            <div className="absolute right-10 top-1/2 -translate-y-1/2">
+                                <div className="w-4 h-4 border-2 border-gray-200 border-t-green-600 rounded-full animate-spin" />
+                            </div>
+                        )}
+                        <button
+                            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 transition-colors p-1 rounded-full hover:bg-gray-100"
+                            onClick={() => setIsOpen(false)}
+                            aria-label="Close search"
+                        >
+                            <X size={18} />
+                        </button>
+                    </div>
 
-                <div className="overflow-y-auto max-h-[60vh] space-y-8 pb-12 custom-scrollbar pr-2">
-                    {results ? (
-                        Object.entries(results).map(([type, items]) => (
-                            (items as SearchItem[]).length > 0 && (
-                                <div key={type} className="animate-in slide-in-from-bottom-4 duration-500">
-                                    <h3 className="text-white/60 uppercase text-xs font-bold tracking-[0.2em] mb-4 flex items-center gap-2 ml-2">
-                                        {type === 'states' && <MapPin size={14} />}
-                                        {type === 'activities' && <Zap size={14} />}
-                                        {type === 'blogs' && <FileText size={14} />}
-                                    </h3>
-                                    <div className="grid grid-cols-1 gap-2">
-                                        {(items as SearchItem[]).map((item) => (
-                                            <button
-                                                key={item.slug}
-                                                className="flex items-center gap-4 p-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 transition-all text-left group"
-                                                onClick={() => navigateTo(type, item.slug)}
-                                            >
-                                                <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-gray-800 flex-shrink-0">
-                                                    {item.hero_image ? (
-                                                        <Image src={item.hero_image} alt={item.name || item.title || 'Search result'} fill className="object-cover" />
-                                                    ) : (
-                                                        <div className="w-full h-full bg-green-900/20 flex items-center justify-center text-green-500">
-                                                            <SearchIcon size={20} />
+                    {/* Results */}
+                    {(hasResults || query.length >= 2) && (
+                        <div className="overflow-y-auto max-h-[60vh] mt-3 pb-2 space-y-4 custom-scrollbar">
+                            {results && hasResults ? (
+                                Object.entries(results).map(([type, items]) => (
+                                    (items as SearchItem[]).length > 0 && (
+                                        <div key={type}>
+                                            <h3 className="text-gray-400 uppercase text-[10px] font-bold tracking-[0.2em] mb-2 flex items-center gap-1.5 ml-1">
+                                                {type === 'states' && <MapPin size={12} />}
+                                                {type === 'activities' && <Zap size={12} />}
+                                                {type === 'blogs' && <FileText size={12} />}
+                                                {type}
+                                            </h3>
+                                            <div className="grid grid-cols-1 gap-1">
+                                                {(items as SearchItem[]).map((item) => (
+                                                    <button
+                                                        key={item.slug}
+                                                        className="flex items-center gap-3 p-3 rounded-xl bg-gray-50 hover:bg-green-50 border border-gray-100 hover:border-green-200 transition-all text-left group"
+                                                        onClick={() => navigateTo(type, item.slug)}
+                                                    >
+                                                        <div className="relative w-10 h-10 rounded-lg overflow-hidden bg-gray-200 flex-shrink-0">
+                                                            {item.hero_image ? (
+                                                                <Image
+                                                                    src={item.hero_image}
+                                                                    alt={item.name || item.title || 'Search result'}
+                                                                    fill
+                                                                    className="object-cover"
+                                                                />
+                                                            ) : (
+                                                                <div className="w-full h-full bg-green-100 flex items-center justify-center text-green-600">
+                                                                    <SearchIcon size={16} />
+                                                                </div>
+                                                            )}
                                                         </div>
-                                                    )}
-                                                </div>
-                                                <div className="flex-grow">
-                                                    <h4 className="text-white font-medium group-hover:text-green-500 transition-colors">{item.name || item.title}</h4>
-                                                    <p className="text-gray-400 text-sm line-clamp-1">{item.description || item.seo_description}</p>
-                                                </div>
-                                                <ArrowRight className="text-gray-600 group-hover:text-white transition-colors" size={18} />
-                                            </button>
-                                        ))}
-                                    </div>
-                                </div>
-                            )
-                        ))
-                    ) : query.length >= 2 ? (
-                        <div className="text-center py-16 text-white/50 text-lg">
-                            No results found for <span className="text-white font-medium">&quot;{query}&quot;</span>
-                        </div>
-                    ) : (
-                        <div className="text-center py-16 text-white/40 text-lg">
-                            Try searching for <span className="text-white/70">&quot;Kaziranga&quot;</span>, <span className="text-white/70">&quot;Meghalaya&quot;</span>, or <span className="text-white/70">&quot;River Rafting&quot;</span>
+                                                        <div className="flex-grow min-w-0">
+                                                            <h4 className="text-gray-900 font-medium text-sm group-hover:text-green-700 transition-colors truncate">
+                                                                {item.name || item.title}
+                                                            </h4>
+                                                            <p className="text-gray-500 text-xs line-clamp-1">
+                                                                {item.description || item.seo_description}
+                                                            </p>
+                                                        </div>
+                                                        <ArrowRight className="text-gray-300 group-hover:text-green-500 transition-colors flex-shrink-0" size={16} />
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )
+                                ))
+                            ) : (
+                                <p className="text-center py-6 text-gray-400 text-sm">
+                                    No results found for <span className="text-gray-700 font-medium">&quot;{query}&quot;</span>
+                                </p>
+                            )}
                         </div>
                     )}
+
+                    {!query && (
+                        <p className="text-xs text-gray-400 mt-2 ml-1">
+                            Try <span className="text-gray-600 font-medium">&quot;Kaziranga&quot;</span>, <span className="text-gray-600 font-medium">&quot;Meghalaya&quot;</span>, or <span className="text-gray-600 font-medium">&quot;River Rafting&quot;</span>
+                        </p>
+                    )}
                 </div>
+                <style jsx>{`
+                    .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+                    .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+                    .custom-scrollbar::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 4px; }
+                    .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #d1d5db; }
+                `}</style>
             </div>
-            <style jsx>{`
-        .custom-scrollbar::-webkit-scrollbar {
-          width: 8px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-          background: rgba(255, 255, 255, 0.05);
-          border-radius: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: rgba(255, 255, 255, 0.1);
-          border-radius: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: rgba(255, 255, 255, 0.2);
-        }
-      `}</style>
-        </div>
+        </>
     );
 };
 

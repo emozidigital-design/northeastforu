@@ -12,6 +12,7 @@ import BentoDestinations from '@/components/ui/BentoDestinations';
 import FeaturedCarousel from '@/components/ui/FeaturedCarousel';
 import Link from 'next/link';
 import { BookOpen } from 'lucide-react';
+import NortheastMapWrapper from '@/components/ui/NortheastMapWrapper';
 
 export default async function Home() {
     const statesRes = await fetchStates();
@@ -39,14 +40,72 @@ export default async function Home() {
         };
     });
 
-    const bentoItems = itineraries.slice(0, 4).map((pkg: any, idx: number) => ({
-        id: pkg.id,
-        title: pkg.title,
-        subtitle: pkg.category || "Tour Package",
-        image: pkg.featured_image || '',
-        size: idx === 0 ? "large" : idx === 3 ? "horizontal" : "small",
-        link: `/itineraries/${pkg.slug}`
-    }));
+    const bentoItems = [
+        {
+            id: 1,
+            title: "Classic Assam & Meghalaya",
+            subtitle: "Assam · Meghalaya",
+            category: "NATURE",
+            images: [
+                "/images/assam/assam-1.jpg",
+                "/images/assam/assam-2.jpg",
+                "/images/assam/assam-3.jpg",
+                "/images/meghalaya/meghalaya-1.jpg",
+                "/images/meghalaya/meghalaya-2.jpg",
+            ],
+            size: "large",
+            link: "/itineraries/classic-assam-meghalaya",
+            duration: "8 Days",
+            tagline: "Rhinos, root bridges & rain forests",
+        },
+        {
+            id: 2,
+            title: "Nagaland Cultural Trail",
+            subtitle: "Nagaland",
+            category: "CULTURE",
+            images: [
+                "/images/nagaland/nagaland-1.jpg",
+                "/images/nagaland/nagaland-2.jpg",
+                "/images/nagaland/nagaland-3.jpg",
+            ],
+            size: "small",
+            link: "/itineraries/nagaland-cultural-trail",
+            duration: "6 Days",
+            tagline: "Ancient tribes & hornbill festivals",
+        },
+        {
+            id: 3,
+            title: "Sikkim Himalayan Explorer",
+            subtitle: "Sikkim",
+            category: "ADVENTURE",
+            images: [
+                "/images/sikkim/sikkim-1.jpg",
+                "/images/sikkim/sikkim-2.jpg",
+                "/images/sikkim/sikkim-3.jpg",
+            ],
+            size: "small",
+            link: "/itineraries/sikkim-himalayan-explorer",
+            duration: "7 Days",
+            tagline: "High passes & ancient monasteries",
+        },
+        {
+            id: 4,
+            title: "Northeast Grand Tour",
+            subtitle: "Full Northeast",
+            category: "LUXURY",
+            images: [
+                "/images/arunachal-pradesh/arunachal-pradesh-1.jpg",
+                "/images/arunachal-pradesh/arunachal-pradesh-2.jpg",
+                "/images/arunachal-pradesh/arunachal-pradesh-3.jpg",
+                "/images/sikkim/sikkim-2.jpg",
+                "/images/meghalaya/meghalaya-3.jpg",
+            ],
+            size: "horizontal",
+            link: "/itineraries/northeast-grand-tour",
+            duration: "14 Days",
+            tagline: "The complete northeast experience",
+        },
+    ];
 
     const blogsRes = await fetchAllBlogs();
     const blogs = blogsRes?.data || [];
@@ -56,7 +115,7 @@ export default async function Home() {
             <HeroSection
                 title="Discover the Unseen"
                 subtitle="Exclusive, curated journeys into the heart of North East India. Where nature meets culture."
-                showSearch={true}
+                showSearch={false}
             />
 
             {/* NEW: Asymmetric Bento Grid for Top Experiences */}
@@ -127,6 +186,27 @@ export default async function Home() {
                     </div>
                 </section>
             </ScrollReveal>
+
+            {/* Interactive Northeast Map */}
+            <section className="py-20 bg-white border-t border-gray-100">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="mb-10">
+                        <div className="flex items-center gap-3 mb-3">
+                            <span className="h-[2px] w-10 bg-[#7fff27] block" />
+                            <span className="text-green-600 font-bold uppercase tracking-widest text-sm">Interactive</span>
+                        </div>
+                        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                            <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight">
+                                Explore the Region
+                            </h2>
+                            <p className="text-gray-400 text-sm max-w-xs leading-relaxed">
+                                Eight states, one extraordinary corner of the world. Click a pin to start exploring.
+                            </p>
+                        </div>
+                    </div>
+                    <NortheastMapWrapper />
+                </div>
+            </section>
         </div>
     );
 }

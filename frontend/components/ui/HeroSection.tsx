@@ -145,12 +145,6 @@ export default function HeroSection({
                 )}
             </div>
 
-            {/* Scroll Down Indicator */}
-            <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-[4] flex flex-col items-center gap-2 text-white/40 animate-bounce">
-                <span className="text-[10px] font-bold tracking-[0.2em] uppercase">Scroll</span>
-                <div className="w-[1px] h-12 bg-gradient-to-b from-white to-transparent"></div>
-            </div>
-
             {/* ── Bottom bar: slide label + dot indicators ── */}
             <div className="absolute bottom-0 left-0 right-0 z-[3] flex items-end justify-between px-8 pb-8">
                 {/* Current slide label */}

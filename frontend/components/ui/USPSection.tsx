@@ -1,80 +1,78 @@
 'use client';
 
-import { Shield, Clock, Headphones, CheckCircle } from 'lucide-react';
+import { Shield, Clock, Headphones, BadgeCheck } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const USPs = [
     {
-        icon: <Shield size={28} />,
+        icon: Shield,
         title: 'Safe & Secure',
         description: 'Verified properties and certified local guides for a worry-free experience in the hills.',
-        color: 'from-emerald-400 to-green-600',
-        bg: 'bg-green-500/10'
     },
     {
-        icon: <Clock size={28} />,
+        icon: Clock,
         title: 'Instant Confirmation',
         description: 'Get your booking confirmed instantly with our real-time regional availability engine.',
-        color: 'from-blue-400 to-indigo-600',
-        bg: 'bg-blue-500/10'
     },
     {
-        icon: <Headphones size={28} />,
+        icon: Headphones,
         title: '24/7 Local Support',
         description: 'Dedicated travel experts natively from the North East available round the clock.',
-        color: 'from-purple-400 to-pink-600',
-        bg: 'bg-purple-500/10'
     },
     {
-        icon: <CheckCircle size={28} />,
+        icon: BadgeCheck,
         title: 'Best Price Guarantee',
-        description: 'We offer the most competitive local rates with zero hidden costs or middleman fees.',
-        color: 'from-amber-400 to-orange-600',
-        bg: 'bg-amber-500/10'
-    }
+        description: 'The most competitive local rates with zero hidden costs or middleman fees.',
+    },
 ];
 
 export default function USPSection() {
     return (
-        <section className="bg-[#0f1e14] py-24 relative overflow-hidden">
-            {/* Background Orbs */}
-            <div className="absolute top-0 left-0 w-96 h-96 bg-green-600/10 blur-[130px] rounded-full mix-blend-screen"></div>
-            <div className="absolute bottom-0 right-0 w-96 h-96 bg-blue-600/10 blur-[130px] rounded-full mix-blend-screen"></div>
+        <section className="bg-[#0f1e14] py-24">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                {/* Heading */}
                 <div className="text-center mb-16">
-                    <h2 className="text-3xl md:text-5xl font-extrabold text-white tracking-tight font-display mb-4">
+                    <h2 className="text-3xl md:text-5xl font-extrabold text-white tracking-tight mb-4">
                         Why Travel With Us?
                     </h2>
-                    <p className="text-green-100/60 max-w-2xl mx-auto text-lg">
-                        We don&apos;t just sell tours; we are locals delivering the authentic, secure, and premium North East experience.
+                    <p className="text-white/40 max-w-xl mx-auto text-base leading-relaxed">
+                        We don&apos;t just sell tours — we are locals delivering the authentic,
+                        secure, and premium North East experience.
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {USPs.map((usp, index) => (
-                        <motion.div 
-                            key={index}
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6, delay: index * 0.1 }}
-                            className="bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-[2rem] hover:bg-white/10 transition-colors group relative overflow-hidden"
-                        >
-                            {/* Hover Gradient Glow */}
-                            <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 bg-gradient-to-br ${usp.color} mix-blend-overlay transition-opacity duration-500`}></div>
-                            
-                            <div className={`inline-flex p-4 rounded-2xl mb-6 relative z-10 ${usp.bg}`}>
-                                <div className={`text-transparent bg-clip-text bg-gradient-to-br ${usp.color}`}>
-                                    {usp.icon}
+                {/* USP columns */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-white/10">
+                    {USPs.map((usp, i) => {
+                        const Icon = usp.icon;
+                        return (
+                            <motion.div
+                                key={i}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.5, delay: i * 0.08 }}
+                                className="group flex flex-col gap-4 px-8 py-10 lg:py-0 first:pl-0 last:pr-0"
+                            >
+                                <Icon
+                                    size={22}
+                                    className="text-white/30 group-hover:text-[#7fff27] transition-colors duration-300"
+                                    strokeWidth={1.5}
+                                />
+                                <div>
+                                    <h3 className="font-bold text-white text-base mb-2 group-hover:text-[#7fff27] transition-colors duration-300">
+                                        {usp.title}
+                                    </h3>
+                                    <p className="text-sm text-white/35 leading-relaxed">
+                                        {usp.description}
+                                    </p>
                                 </div>
-                            </div>
-                            
-                            <h3 className="font-bold text-white text-xl mb-3 relative z-10">{usp.title}</h3>
-                            <p className="text-sm text-green-100/50 leading-relaxed relative z-10">{usp.description}</p>
-                        </motion.div>
-                    ))}
+                            </motion.div>
+                        );
+                    })}
                 </div>
+
             </div>
         </section>
     );
