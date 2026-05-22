@@ -83,7 +83,7 @@ export default function HeroSection({
                 <div className="absolute inset-0 z-[2] bg-black/30" />
 
                 {/* State name only */}
-                <h1 className="relative z-[3] text-white text-5xl md:text-7xl lg:text-8xl font-extrabold text-center drop-shadow-2xl leading-tight px-4">
+                <h1 className="relative z-[3] text-white text-5xl md:text-7xl lg:text-8xl font-extrabold text-center drop-shadow-2xl leading-tight px-4 uppercase tracking-wide">
                     {title}
                 </h1>
             </section>
@@ -117,7 +117,7 @@ export default function HeroSection({
                             {slides[current].location ?? 'North East India'}
                         </div>
 
-                        <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold mb-5 drop-shadow-xl leading-tight">
+                        <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold mb-5 drop-shadow-xl leading-tight uppercase tracking-wide">
                             {title}
                         </h1>
 

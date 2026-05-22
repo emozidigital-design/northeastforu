@@ -163,10 +163,10 @@ export default function Header() {
     ];
 
     return (
-        <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b bg-white ${isScrolled ? 'border-gray-100 shadow-lg py-1' : 'border-gray-200 py-3'}`}>
+        <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b bg-white ${isScrolled ? 'border-gray-100 shadow-lg py-0' : 'border-gray-200 py-1'}`}>
             <div className="absolute inset-x-0 bottom-0 h-[1px] bg-[#7fff27]/20"></div>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex justify-between items-center h-16">
+                <div className="flex justify-between items-center h-12">
                     <Link href="/" className="text-2xl font-bold text-[#16a34a]">
                         NorthEast<span className="text-[#7fff27]">ForU</span>
                     </Link>
@@ -174,7 +174,7 @@ export default function Header() {
                     {/* Desktop Nav */}
                     <nav className="hidden md:flex items-center space-x-8">
                         {navItems.map((item) => (
-                            <Link key={item.href} href={item.href} className="text-gray-600 hover:text-green-600 font-medium transition-colors py-2">
+                            <Link key={item.href} href={item.href} className="text-gray-600 hover:text-green-700 font-medium transition-all py-1 px-2 rounded-md hover:border hover:border-[#7fff27]/60 border border-transparent">
                                 {item.name}
                             </Link>
                         ))}
@@ -188,7 +188,7 @@ export default function Header() {
                         >
                             <button
                                 type="button"
-                                className="inline-flex items-center gap-1 text-gray-600 hover:text-green-600 font-medium transition-colors py-2"
+                                className="inline-flex items-center gap-1 text-gray-600 hover:text-green-700 font-medium transition-all py-1 px-2 rounded-md hover:border hover:border-[#7fff27]/60 border border-transparent"
                                 onClick={() => setShowDest(!showDest)}
                             >
                                 Destinations
@@ -263,7 +263,7 @@ export default function Header() {
                         >
                             <button
                                 type="button"
-                                className="inline-flex items-center gap-1 text-gray-600 hover:text-green-600 font-medium transition-colors py-2"
+                                className="inline-flex items-center gap-1 text-gray-600 hover:text-green-700 font-medium transition-all py-1 px-2 rounded-md hover:border hover:border-[#7fff27]/60 border border-transparent"
                                 onClick={() => setShowHelp(!showHelp)}
                             >
                                 Help
@@ -288,7 +288,7 @@ export default function Header() {
                             )}
                         </div>
 
-                        <Link href="/contact" className="text-gray-600 hover:text-green-600 font-medium transition-colors py-2">
+                        <Link href="/contact" className="text-gray-600 hover:text-green-700 font-medium transition-all py-1 px-2 rounded-md hover:border hover:border-[#7fff27]/60 border border-transparent">
                             Contact
                         </Link>
                     </nav>
@@ -304,10 +304,9 @@ export default function Header() {
                         <div className="hidden md:flex items-center">
                             <Link
                                 href="/plan-my-trip"
-                                className="bg-[#7fff27] text-black px-7 py-3 rounded-full font-bold hover:shadow-xl hover:shadow-[#7fff27]/20 transition-all relative overflow-hidden group"
+                                className="bg-[#0f1e14] text-white px-6 py-2 rounded-full font-bold hover:bg-green-900 hover:shadow-lg transition-all relative overflow-hidden group"
                             >
                                 <span className="relative z-10">Plan Your Trip</span>
-                                <div className="absolute inset-0 bg-black/5 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
                             </Link>
                         </div>
                         <button
@@ -414,7 +413,7 @@ export default function Header() {
                         <div className="pt-3">
                             <Link
                                 href="/plan-my-trip"
-                                className="block bg-[#7fff27] text-black px-6 py-3 rounded-xl font-bold text-center hover:bg-[#6ee620] transition-all"
+                                className="block bg-[#0f1e14] text-white px-6 py-3 rounded-xl font-bold text-center hover:bg-green-900 transition-all"
                                 onClick={() => setIsMenuOpen(false)}
                             >
                                 Plan Your Trip

@@ -4,11 +4,12 @@ import HeroSection from '@/components/ui/HeroSection';
 import SmartImage from '@/components/ui/SmartImage';
 import WeatherWidget from '@/components/ui/WeatherWidget';
 import TripPlanningForm from '@/components/ui/TripPlanningForm';
-import CityStickyBar from '@/components/city/CityStickyBar';
-import CityTabs from '@/components/city/CityTabs';
+
+import CityPlacesGrid from '@/components/city/CityPlacesGrid';
 import { Camera, ArrowRight, MapPin, ChevronRight, Clock, Calendar, Info, Zap, Lightbulb, Wallet, MoveRight } from 'lucide-react';
 import { fetchCityBySlug } from '@/lib/api';
 import { getCuratedImage } from '@/lib/curatedImages';
+import { getCityData } from '@/lib/cityData';
 import ImprovedFAQ from '@/components/ui/ImprovedFAQ';
 import InsiderTipCard from '@/components/ui/InsiderTipCard';
 import Breadcrumbs from '@/components/ui/Breadcrumbs';
@@ -48,11 +49,14 @@ async function getTips(slug: string) {
 export async function generateMetadata({ params }: { params: Promise<{ state: string; city: string }> }) {
     const { state: stateSlug, city: citySlug } = await params;
     const city = await fetchCityBySlug(citySlug);
-    if (!city) return { title: 'Not Found' };
+    const staticCity = getCityData(citySlug);
 
-    const title = city.seo_title || `${city.name || 'City'} Travel Guide | NorthEastForU`;
-    const description = city.seo_description || `Explore ${city.name}, discover attractions and plan your visit.`;
-    const image = city.featured_image || getCuratedImage(city.slug, 'city') || `https://northeastforu.com/images/cities/${city.slug}.jpg`;
+    if (!city && !staticCity) return { title: 'Not Found' };
+
+    const cityName = city?.name || staticCity?.name || citySlug;
+    const title = city?.seo_title || `${cityName} Travel Guide | NorthEastForU`;
+    const description = city?.seo_description || staticCity?.description?.slice(0, 160) || `Explore ${cityName}, discover attractions and plan your visit.`;
+    const image = city?.featured_image || staticCity?.featured_image || getCuratedImage(citySlug, 'city') || `https://northeastforu.com/images/cities/${citySlug}.jpg`;
 
     return {
         title,
@@ -70,7 +74,7 @@ export async function generateMetadata({ params }: { params: Promise<{ state: st
                     url: image,
                     width: 1200,
                     height: 630,
-                    alt: city.name,
+                    alt: cityName,
                 },
             ],
             locale: 'en_IN',
@@ -88,48 +92,57 @@ export async function generateMetadata({ params }: { params: Promise<{ state: st
 export default async function CityPage({ params }: { params: Promise<{ state: string; city: string }> }) {
     const { state: stateParam, city: cityParam } = await params;
     const city = await fetchCityBySlug(cityParam);
-    if (!city) notFound();
+    const staticCity = getCityData(cityParam);
 
-    const attractions = await getAttractions(city.id);
-    const tours = await getTours(city.id);
-    const tips = await getTips(city.slug);
-    const stateName = city.state?.name || stateParam.replace(/-/g, ' ');
+    // Require at least one data source
+    if (!city && !staticCity) notFound();
+
+    const attractions = city ? await getAttractions(city.id) : [];
+    const tours = city ? await getTours(city.id) : [];
+    const tips = city ? await getTips(city.slug) : [];
+    const stateName = city?.state?.name || staticCity?.state || stateParam.replace(/-/g, ' ');
+
+    // Merge: API is authoritative, static is the safety net
+    const cityName = city?.name || staticCity?.name || cityParam;
+    const citySlug = city?.slug || cityParam;
+    const cityTagline = city?.tagline || staticCity?.tagline || `Discover ${cityName}`;
+    const cityDescription = city?.description || staticCity?.description || '';
+    const cityBestTime = city?.best_time_to_visit || staticCity?.best_time || 'Oct – Apr';
 
     // Prepare multi-image array for hero
-    const dbGallery = Array.isArray(city.gallery_images) 
-        ? city.gallery_images 
-        : (typeof city.gallery_images === 'string' ? JSON.parse(city.gallery_images) : []);
+    const dbGallery = Array.isArray(city?.gallery_images)
+        ? city.gallery_images
+        : (typeof city?.gallery_images === 'string' ? JSON.parse(city.gallery_images) : []);
 
-    const heroImages = dbGallery.length > 0 
+    const heroImages = staticCity?.hero_images
+        ? staticCity.hero_images
+        : dbGallery.length > 0
         ? dbGallery.map((img: string) => ({
             src: img.startsWith('http') ? img : `http://localhost:5006${img}`,
-            label: city.name,
+            label: cityName,
             location: stateName
         }))
         : [
-            { 
-                src: city.featured_image || getCuratedImage(city.slug, 'city') || `/images/cities/${city.slug}.jpg`, 
-                label: city.name, 
-                location: stateName 
+            {
+                src: city?.featured_image || staticCity?.featured_image || getCuratedImage(citySlug, 'city') || `/images/cities/${citySlug}.jpg`,
+                label: cityName,
+                location: stateName
             },
             ...attractions.slice(0, 4).map((a: any) => ({
                 src: a.featured_image || getCuratedImage(a.slug, 'attraction') || `/images/attractions/${a.slug}.jpg`,
                 label: a.name,
-                location: city.name
+                location: cityName
             }))
         ];
 
     return (
         <div className="bg-[#fcfdfc] min-h-screen font-sans">
-            {/* Sticky Navigation Bar */}
-            <CityStickyBar title={city.name} stateName={stateName} />
-
             {/* Premium Hero Section - Reduced Height & Multi-Image Slider */}
             <HeroSection
-                title={city.name}
-                subtitle={city.tagline || city.description?.slice(0, 100) + '...' || `Discover the wonders of ${city.name}.`}
+                title={cityName}
+                subtitle={cityTagline}
                 images={heroImages}
-                slug={city.slug}
+                slug={citySlug}
                 contentType="city"
                 customClass="h-[45vh] min-h-[350px] max-h-[500px]"
             />
@@ -137,11 +150,11 @@ export default async function CityPage({ params }: { params: Promise<{ state: st
             {/* Main Header Information */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-5">
                 {/* Breadcrumbs */}
-                <Breadcrumbs 
+                <Breadcrumbs
                     items={[
                         { label: stateName, href: `/${stateParam}` },
-                        { label: city.name, href: `/${stateParam}/${city.slug}` }
-                    ]} 
+                        { label: cityName, href: `/${stateParam}/${citySlug}` }
+                    ]}
                     className="mb-6"
                 />
 
@@ -152,17 +165,17 @@ export default async function CityPage({ params }: { params: Promise<{ state: st
                             <span className="text-sm font-bold text-green-600 uppercase tracking-wider">{stateName}</span>
                         </div>
                         <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-[#0f1e14] leading-tight tracking-tight">
-                            {city.name}
+                            {cityName}
                         </h1>
                         <p className="mt-3 text-lg text-gray-500 font-medium italic">
-                            &ldquo;{city.tagline || `Experience the soul of ${stateName}`}&rdquo;
+                            &ldquo;{cityTagline}&rdquo;
                         </p>
                     </div>
 
                     <div className="flex flex-wrap items-center gap-3">
                         <div className="flex items-center gap-2 bg-white border border-gray-200 px-4 py-2 rounded-2xl shadow-sm">
                             <Camera size={18} className="text-green-600" />
-                            <span className="text-sm font-bold text-gray-900">{attractions.length} Places</span>
+                            <span className="text-sm font-bold text-gray-900">{attractions.length || staticCity?.places?.length || 0} Places</span>
                         </div>
                         <div className="flex items-center gap-2 bg-white border border-gray-200 px-4 py-2 rounded-2xl shadow-sm">
                             <Zap size={18} className="text-amber-500" />
@@ -172,10 +185,7 @@ export default async function CityPage({ params }: { params: Promise<{ state: st
                 </div>
             </div>
 
-            {/* Scrollable Sticky Tabs */}
-            <CityTabs />
-
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
                 <div className="flex flex-col lg:flex-row gap-12">
                     {/* Left Main Content */}
                     <div className="flex-1 lg:max-w-[740px] xl:max-w-[800px] space-y-20 pt-12">
@@ -186,15 +196,15 @@ export default async function CityPage({ params }: { params: Promise<{ state: st
                                 <div className="w-12 h-12 rounded-2xl bg-green-50 flex items-center justify-center text-green-600">
                                     <Info size={24} />
                                 </div>
-                                <h2 className="text-3xl font-extrabold text-[#0f1e14]">Why Visit {city.name}?</h2>
+                                <h2 className="text-3xl font-extrabold text-[#0f1e14]">Why Visit {cityName}?</h2>
                             </div>
 
-                            {city.description ? (
+                            {cityDescription ? (
                                 <div className="space-y-10">
                                     <div className="bg-white rounded-3xl p-8 border border-gray-100 shadow-[0_20px_50px_rgba(0,0,0,0.02)]">
                                         <div className="text-gray-600 text-[18px] leading-[1.8] prose max-w-none prose-p:mb-4 prose-headings:text-[#0f1e14] prose-li:text-gray-600">
                                             <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                                                {city.description}
+                                                {cityDescription}
                                             </ReactMarkdown>
                                         </div>
                                     </div>
@@ -213,14 +223,14 @@ export default async function CityPage({ params }: { params: Promise<{ state: st
                                                     <div className="p-2 bg-white rounded-lg shadow-sm text-green-600"><Clock size={18} /></div>
                                                     <div>
                                                         <p className="text-xs font-bold text-green-800/60 uppercase tracking-widest">Best Time</p>
-                                                        <p className="text-sm font-bold text-gray-900">{city.best_time_to_visit || 'Oct to Apr'}</p>
+                                                        <p className="text-sm font-bold text-gray-900">{cityBestTime}</p>
                                                     </div>
                                                 </li>
                                                 <li className="flex items-start gap-4">
                                                     <div className="p-2 bg-white rounded-lg shadow-sm text-amber-600"><Wallet size={18} /></div>
                                                     <div>
                                                         <p className="text-xs font-bold text-amber-800/60 uppercase tracking-widest">Est. Budget</p>
-                                                        <p className="text-sm font-bold text-gray-900">₹{city.budget_per_day ? `${city.budget_per_day}/day` : '2500 - 4500 / day'}</p>
+                                                        <p className="text-sm font-bold text-gray-900">₹{city?.budget_per_day ? `${city.budget_per_day}/day` : '2500 - 4500 / day'}</p>
                                                     </div>
                                                 </li>
                                                 <li className="flex items-start gap-4">
@@ -239,7 +249,7 @@ export default async function CityPage({ params }: { params: Promise<{ state: st
                                             </h3>
                                             <div className="text-sm text-gray-600 leading-relaxed prose prose-sm max-w-none">
                                                 <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                                                    {city.how_to_reach || `${city.name} is well connected by road and rail from major cities in ${stateName}. The nearest airport depends on the specific location but is generally within a few hours reach.`}
+                                                    {city?.how_to_reach || staticCity?.how_to_reach || `${cityName} is well connected by road and rail from major cities in ${stateName}. The nearest airport depends on the specific location but is generally within a few hours reach.`}
                                                 </ReactMarkdown>
                                             </div>
                                             <button className="mt-6 flex items-center gap-2 text-sm font-bold text-amber-700 hover:gap-3 transition-all">
@@ -258,19 +268,25 @@ export default async function CityPage({ params }: { params: Promise<{ state: st
                             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
                                 <div>
                                     <h2 className="text-3xl font-extrabold text-[#0f1e14]">Must-Visit Attractions</h2>
-                                    <p className="text-gray-500 mt-2 font-medium">Curated list of the best places to explore in {city.name}</p>
+                                    <p className="text-gray-500 mt-2 font-medium">Curated list of the best places to explore in {cityName}</p>
                                 </div>
                                 <div className="text-green-700 font-bold text-sm bg-green-50 px-4 py-2 rounded-full">
-                                    {attractions.length} Places Found
+                                    {attractions.length || staticCity?.places?.length || 0} Places Found
                                 </div>
                             </div>
-                            
+
+                            {/* Static places grid (rich content from markdown) */}
+                            {staticCity?.places && staticCity.places.length > 0 && (
+                                <CityPlacesGrid places={staticCity.places} />
+                            )}
+
+                            {/* API attractions (linked cards with detail pages) */}
                             {attractions.length > 0 ? (
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                                     {attractions.map((a: { id: number, slug: string, name: string, category: string, description?: string, featured_image?: string }) => (
                                         <Link
                                             key={a.id}
-                                            href={`/${stateParam}/${cityParam}/${a.slug}`}
+                                            href={`/${stateParam}/${citySlug}/${a.slug}`}
                                             className="group relative flex flex-col bg-white border border-gray-100/80 rounded-[32px] overflow-hidden hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.08)] hover:-translate-y-2 transition-all duration-700"
                                         >
                                             <div className="relative h-[250px] w-full overflow-hidden">
@@ -282,18 +298,18 @@ export default async function CityPage({ params }: { params: Promise<{ state: st
                                                     searchKeyword={a.name}
                                                 />
                                                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-500" />
-                                                
+
                                                 <div className="absolute top-4 left-4">
                                                     <span className="px-3 py-1.5 text-[10px] font-extrabold tracking-wider uppercase bg-white/30 backdrop-blur-md rounded-full border border-white/20 text-white shadow-sm">
                                                         {a.category || 'Sightseeing'}
                                                     </span>
                                                 </div>
-                                                
+
                                                 <div className="absolute bottom-6 left-6 right-6 text-white">
                                                     <h3 className="text-2xl font-bold leading-tight drop-shadow-lg mb-1">{a.name}</h3>
                                                     <div className="flex items-center gap-2 text-white/80 text-xs font-medium">
                                                         <MapPin size={12} />
-                                                        <span>{city.name}</span>
+                                                        <span>{cityName}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -317,7 +333,7 @@ export default async function CityPage({ params }: { params: Promise<{ state: st
                                         <Camera size={40} />
                                     </div>
                                     <h3 className="text-xl font-bold text-gray-900">No attractions yet</h3>
-                                    <p className="text-gray-500 mt-2 text-center max-w-sm font-medium leading-relaxed">We are currently mapping the best spots in {city.name}. Check back soon!</p>
+                                    <p className="text-gray-500 mt-2 text-center max-w-sm font-medium leading-relaxed">We are currently mapping the best spots in {cityName}. Check back soon!</p>
                                 </div>
                             )}
                         </section>
@@ -350,7 +366,7 @@ export default async function CityPage({ params }: { params: Promise<{ state: st
                             <div className="flex items-center justify-between">
                                 <div>
                                     <h2 className="text-3xl font-extrabold text-[#0f1e14]">Curated Experiences</h2>
-                                    <p className="text-gray-500 mt-2 font-medium">Handpicked tours and packages for a hassle-free journey</p>
+                                    <p className="text-gray-500 mt-2 font-medium">Handpicked tours and packages for a hassle-free journey in {cityName}</p>
                                 </div>
                                 <Link href="/activities" className="hidden sm:flex items-center gap-2 p-3 rounded-full bg-white border border-gray-100 shadow-sm hover:shadow-md transition-all text-green-700 font-bold text-sm">
                                     Browse All <ArrowRight size={16}/>
@@ -406,7 +422,7 @@ export default async function CityPage({ params }: { params: Promise<{ state: st
                                             <Calendar size={32} />
                                         </div>
                                         <h3 className="text-2xl font-extrabold text-white">Missing the perfect tour?</h3>
-                                        <p className="text-green-100/70 max-w-md font-medium">Our local specialists can design a custom-tailored journey just for you in {city.name}.</p>
+                                        <p className="text-green-100/70 max-w-md font-medium">Our local specialists can design a custom-tailored journey just for you in {cityName}.</p>
                                     </div>
                                     <a href="#tab-plantrip" className="bg-white text-[#0f1e14] font-extrabold py-4 px-10 rounded-2xl hover:scale-105 transition-all shadow-2xl relative z-10">
                                         Request Custom Plan
@@ -424,14 +440,14 @@ export default async function CityPage({ params }: { params: Promise<{ state: st
                                 <h2 className="text-3xl font-extrabold text-[#0f1e14]">Weather &amp; Timing</h2>
                             </div>
                             <p className="text-gray-600 text-lg leading-relaxed font-medium">
-                                Stay ahead of the weather. Check real-time conditions and forecast for {city.name}.
+                                Stay ahead of the weather. Check real-time conditions and forecast for {cityName}.
                             </p>
                             <div className="mt-4 shadow-2xl shadow-gray-200 rounded-[40px] overflow-hidden border border-gray-100">
-                                <WeatherWidget cityName={city.name} />
+                                <WeatherWidget cityName={cityName} />
                             </div>
 
                             {/* FAQ Section (Integrated) */}
-                            <ImprovedFAQ pageType="city" pageSlug={city.slug} title={`Essentials for ${city.name}`} />
+                            <ImprovedFAQ pageType="city" pageSlug={citySlug} title={`Essentials for ${cityName}`} />
                         </section>
 
                     </div>
@@ -465,7 +481,7 @@ export default async function CityPage({ params }: { params: Promise<{ state: st
                             <div className="relative overflow-hidden bg-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-gray-100">
                                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-green-400 to-[#1a6b3c]" />
                                 <div className="p-8">
-                                    <h3 className="text-xl font-bold text-gray-900 mb-2">Ready to visit {city.name}?</h3>
+                                    <h3 className="text-xl font-bold text-gray-900 mb-2">Ready to visit {cityName}?</h3>
                                     <p className="text-gray-500 text-sm mb-6">
                                         Get a personalized, hand-crafted itinerary from our local experts.
                                     </p>
@@ -480,7 +496,7 @@ export default async function CityPage({ params }: { params: Promise<{ state: st
                 <div className="lg:hidden mt-16 pt-12 border-t border-gray-100" id="tab-plantrip-mobile">
                     <div className="bg-[#0f1e14] rounded-3xl p-8 shadow-2xl relative overflow-hidden">
                         <div className="absolute top-0 right-0 w-64 h-64 bg-green-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-                        <h3 className="text-2xl font-bold text-white mb-2 relative z-10">Plan Your {city.name} Trip</h3>
+                        <h3 className="text-2xl font-bold text-white mb-2 relative z-10">Plan Your {cityName} Trip</h3>
                         <p className="text-green-50/70 mb-6 relative z-10">
                             Let our travel experts craft the perfect North East itinerary for you.
                         </p>

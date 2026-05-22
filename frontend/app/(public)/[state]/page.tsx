@@ -9,7 +9,7 @@ import { getStateData } from '@/lib/stateData';
 import SmartImage from '@/components/ui/SmartImage';
 import { MapPin, Clock, ArrowRight, Camera, Info, Zap, Lightbulb, Wallet, MoveRight, ChevronRight, Calendar } from 'lucide-react';
 import AttractionTable from '@/components/state/AttractionTable';
-import StateStickyBar from '@/components/state/StateStickyBar';
+
 import DetailedFAQ from '@/components/ui/ImprovedFAQ';
 import InsiderTipCard from '@/components/ui/InsiderTipCard';
 import { getCuratedImage } from '@/lib/curatedImages';
@@ -173,9 +173,6 @@ export default async function StatePage({ params }: { params: Promise<{ state: s
 
     return (
         <div className="bg-[#fcfdfc] min-h-screen font-sans">
-            {/* Sticky Navigation Bar */}
-            <StateStickyBar title={stateName} />
-
             {/* Premium Hero Section - Multi-Image Slider */}
             <HeroSection
                 title={stateName}
