@@ -72,32 +72,47 @@ export const ATTRACTION_IMAGES: Record<string, string> = {
     'dawki-river': 'https://images.unsplash.com/photo-1588614461853-cf6ed80faba5?auto=format&fit=crop&w=800&q=85',
 };
 
-// Hero slideshow: 5 stunning NE India showcases
+// Hero slideshow: One stunning showcase for every state
 export const HERO_SLIDES = [
     {
-        src: '/images/kaziranga.png',
-        label: 'Wild Safaris at Kaziranga',
+        src: '/images/assam/assam-3.jpg',
+        label: 'Majestic Brahmaputra River Valley',
         location: 'Assam',
     },
     {
-        src: '/images/double-decker-root-bridge.png',
+        src: '/images/meghalaya/meghalaya-1.jpg',
         label: 'Ancient Living Root Bridges',
         location: 'Meghalaya',
     },
     {
-        src: '/images/ziro-valley.png',
-        label: 'The Serene Ziro Valley',
+        src: '/images/arunachal-pradesh/arunachal-pradesh-1.jpg',
+        label: 'Spectacular Sela Pass',
         location: 'Arunachal Pradesh',
     },
     {
-        src: '/images/hornbill-festival.png',
-        label: 'The Vibrant Hornbill Festival',
+        src: '/images/nagaland/nagaland-1.jpg',
+        label: 'Vibrant Hornbill & Naga Heritage',
         location: 'Nagaland',
     },
     {
-        src: '/images/bomdila.png',
-        label: 'Majestic Peaks of Bomdila',
-        location: 'Arunachal Pradesh',
+        src: '/images/sikkim/sikkim-1.jpg',
+        label: 'Sacred Glacial Lakes & Peaks',
+        location: 'Sikkim',
+    },
+    {
+        src: '/images/manipur/manipur-1.jpg',
+        label: 'Unique Floating Loktak Lake',
+        location: 'Manipur',
+    },
+    {
+        src: '/images/mizoram/mizoram-1.jpg',
+        label: 'Misty Blue Mountains & Vistas',
+        location: 'Mizoram',
+    },
+    {
+        src: '/images/tripura/tripura-1.jpg',
+        label: 'The Royal Ujjayanta Palace',
+        location: 'Tripura',
     },
 ];
 

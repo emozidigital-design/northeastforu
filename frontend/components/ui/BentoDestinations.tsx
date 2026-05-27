@@ -20,10 +20,10 @@ interface BentoItem {
 }
 
 const CATEGORY_STYLES: Record<string, { pill: string; dot: string }> = {
-    NATURE:    { pill: 'bg-emerald-500 text-white',  dot: 'bg-emerald-300' },
-    CULTURE:   { pill: 'bg-amber-500 text-white',    dot: 'bg-amber-300' },
-    ADVENTURE: { pill: 'bg-sky-500 text-white',      dot: 'bg-sky-300' },
-    LUXURY:    { pill: 'bg-violet-600 text-white',   dot: 'bg-violet-300' },
+    NATURE: { pill: 'bg-emerald-500 text-white', dot: 'bg-emerald-300' },
+    CULTURE: { pill: 'bg-amber-500 text-white', dot: 'bg-amber-300' },
+    ADVENTURE: { pill: 'bg-sky-500 text-white', dot: 'bg-sky-300' },
+    LUXURY: { pill: 'bg-violet-600 text-white', dot: 'bg-violet-300' },
 };
 
 const FALLBACK_ITEMS: BentoItem[] = [
@@ -33,9 +33,9 @@ const FALLBACK_ITEMS: BentoItem[] = [
         subtitle: "Assam · Meghalaya",
         category: "NATURE",
         images: [
-            "/images/assam/assam-1.jpg",
             "/images/assam/assam-2.jpg",
             "/images/assam/assam-3.jpg",
+            "/images/assam/assam-4.jpg",
             "/images/meghalaya/meghalaya-1.jpg",
             "/images/meghalaya/meghalaya-2.jpg",
         ],
@@ -206,13 +206,12 @@ export default function BentoDestinations({ destinations }: { destinations?: any
                                     delay: i * 0.1,
                                     ease: [0.22, 1, 0.36, 1],
                                 }}
-                                className={`group relative rounded-[1.75rem] overflow-hidden shadow-md ${
-                                    isLarge
-                                        ? 'md:col-span-2 md:row-span-2'
-                                        : isHorizontal
+                                className={`group relative rounded-[1.75rem] overflow-hidden shadow-md ${isLarge
+                                    ? 'md:col-span-2 md:row-span-2'
+                                    : isHorizontal
                                         ? 'md:col-span-2 md:row-span-1'
                                         : 'md:col-span-1 md:row-span-1'
-                                }`}
+                                    }`}
                             >
                                 {/* Sliding image background */}
                                 {images.length > 0 && (
@@ -259,11 +258,10 @@ export default function BentoDestinations({ destinations }: { destinations?: any
                                         </div>
 
                                         <h3
-                                            className={`font-extrabold text-white leading-tight ${
-                                                isLarge
-                                                    ? 'text-3xl md:text-[2.1rem] mb-2'
-                                                    : 'text-[1.1rem] md:text-[1.2rem] mb-1'
-                                            }`}
+                                            className={`font-extrabold text-white leading-tight ${isLarge
+                                                ? 'text-3xl md:text-[2.1rem] mb-2'
+                                                : 'text-[1.1rem] md:text-[1.2rem] mb-1'
+                                                }`}
                                         >
                                             {dest.title}
                                         </h3>

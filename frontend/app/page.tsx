@@ -47,9 +47,9 @@ export default async function Home() {
             subtitle: "Assam · Meghalaya",
             category: "NATURE",
             images: [
-                "/images/assam/assam-1.jpg",
                 "/images/assam/assam-2.jpg",
                 "/images/assam/assam-3.jpg",
+                "/images/assam/assam-4.jpg",
                 "/images/meghalaya/meghalaya-1.jpg",
                 "/images/meghalaya/meghalaya-2.jpg",
             ],

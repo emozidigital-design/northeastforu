@@ -30,9 +30,11 @@ const FALLBACK_ITINERARIES = [
         price_estimate: 28000,
         category: 'NATURE',
         images: [
-            '/images/assam/assam-1.jpg',
             '/images/assam/assam-2.jpg',
+            '/images/assam/assam-3.jpg',
+            '/images/assam/assam-4.jpg',
             '/images/meghalaya/meghalaya-1.jpg',
+            '/images/meghalaya/meghalaya-2.jpg',
         ],
     },
     {
@@ -91,7 +93,7 @@ function resolveImages(itin: any): string[] {
     if (itin.images?.length) return itin.images;
     const slug: string = itin.slug ?? '';
     if (slug.includes('assam') || slug.includes('meghalaya') || slug.includes('classic'))
-        return ['/images/assam/assam-1.jpg', '/images/meghalaya/meghalaya-1.jpg'];
+        return ['/images/assam/assam-2.jpg', '/images/meghalaya/meghalaya-1.jpg'];
     if (slug.includes('nagaland'))
         return ['/images/nagaland/nagaland-1.jpg', '/images/nagaland/nagaland-2.jpg'];
     if (slug.includes('sikkim'))
@@ -104,7 +106,7 @@ function resolveImages(itin: any): string[] {
         return ['/images/manipur/manipur-1.jpg'];
     if (slug.includes('tripura'))
         return ['/images/tripura/tripura-1.jpg'];
-    return ['/images/assam/assam-1.jpg'];
+    return ['/images/assam/assam-2.jpg'];
 }
 
 export default async function ItinerariesPage() {

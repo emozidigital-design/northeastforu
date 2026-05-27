@@ -145,31 +145,11 @@ export default function HeroSection({
                 )}
             </div>
 
-            {/* ── Bottom bar: slide label + dot indicators ── */}
+            {/* ── Bottom bar: slide label ── */}
             <div className="absolute bottom-0 left-0 right-0 z-[3] flex items-end justify-between px-8 pb-8">
                 {/* Current slide label */}
                 <p className="text-white/70 text-sm font-medium tracking-wide hidden md:block">
                     {slides[current].label}
-                </p>
-
-                {/* Dot indicators */}
-                <div className="flex gap-2 mx-auto md:mx-0">
-                    {slides.map((_: any, idx: number) => (
-                        <button
-                            key={idx}
-                            onClick={() => goTo(idx)}
-                            aria-label={`Go to slide ${idx + 1}`}
-                            className={`h-1.5 rounded-full transition-all duration-500 ${idx === current
-                                ? 'w-8 bg-white'
-                                : 'w-3 bg-white/40 hover:bg-white/60'
-                                }`}
-                        />
-                    ))}
-                </div>
-
-                {/* Counter */}
-                <p className="text-white/50 text-sm font-mono hidden md:block">
-                    {String(current + 1).padStart(2, '0')} / {String(slides.length).padStart(2, '0')}
                 </p>
             </div>
         </section>

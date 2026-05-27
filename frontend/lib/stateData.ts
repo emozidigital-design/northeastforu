@@ -48,6 +48,7 @@ const STATE_DATA: StateStaticData[] = [
       { src: '/images/assam/assam-1.jpg', label: 'Assam', location: 'Northeast India' },
       { src: '/images/assam/assam-2.jpg', label: 'Brahmaputra Valley', location: 'Assam' },
       { src: '/images/assam/assam-3.jpg', label: 'Assam', location: 'Northeast India' },
+      { src: '/images/assam/assam-4.jpg', label: 'Assam Hills & Valleys', location: 'Assam' },
       { src: '/images/assam/Kaziranga 1.jpg', label: 'Kaziranga National Park', location: 'Kaziranga' },
       { src: '/images/assam/Guwahati 1.jpg', label: 'Guwahati', location: 'Guwahati' },
     ],
