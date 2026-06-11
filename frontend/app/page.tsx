@@ -2,9 +2,9 @@ export const dynamic = 'force-dynamic';
 
 import HeroSection from '@/components/ui/HeroSection';
 import CardGrid from '@/components/ui/CardGrid';
-import StateCard from '@/components/ui/StateCard';
 import { fetchStates, fetchAllBlogs, fetchAllItineraries } from '@/lib/api';
 import ScrollReveal from '@/components/ui/ScrollReveal';
+import StatesGrid from '@/components/ui/StatesGrid';
 import { getCuratedImage } from '@/lib/curatedImages';
 import { getAllStatesData } from '@/lib/stateData';
 import USPSection from '@/components/ui/USPSection';
@@ -129,10 +129,10 @@ export default async function Home() {
                 <FeaturedCarousel itineraries={itineraries} />
             )}
 
-            <ScrollReveal>
-                <section className="py-24 bg-white relative overflow-hidden">
-                    <div className="absolute top-0 right-0 w-96 h-96 bg-green-500/5 blur-[100px] rounded-full pointer-events-none"></div>
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <section className="py-24 bg-white relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-96 h-96 bg-green-500/5 blur-[100px] rounded-full pointer-events-none"></div>
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                    <ScrollReveal>
                         <div className="mb-12 flex flex-col md:flex-row justify-between items-end gap-6">
                             <div>
                                 <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight font-display">
@@ -143,26 +143,14 @@ export default async function Home() {
                                 </p>
                             </div>
                         </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                            {statesData.map((state) => (
-                                <StateCard
-                                    key={state.slug}
-                                    name={state.name}
-                                    slug={state.slug}
-                                    image={state.image}
-                                    theme={state.theme}
-                                    best_season={state.best_season}
-                                    city_count={state.city_count}
-                                />
-                            ))}
-                        </div>
-                    </div>
-                </section>
-            </ScrollReveal>
+                    </ScrollReveal>
+                    <StatesGrid statesData={statesData} />
+                </div>
+            </section>
 
-            <ScrollReveal delay={200}>
-                <section className="py-24 bg-slate-50 border-t border-slate-100 relative">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <section className="py-24 bg-slate-50 border-t border-slate-100 relative">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <ScrollReveal>
                         <div className="mb-12 flex flex-col md:flex-row justify-between items-end gap-6">
                             <div>
                                 <div className="flex items-center gap-3 mb-3">
@@ -177,34 +165,40 @@ export default async function Home() {
                                 Read all stories <span>→</span>
                             </Link>
                         </div>
+                    </ScrollReveal>
+                    <ScrollReveal delay={150}>
                         <CardGrid items={blogs.slice(0, 4).map((b: any) => ({
                             title: b.title,
                             slug: b.slug,
                             image: b.featured_image,
                             description: b.excerpt || b.title
                         }))} type="blog" />
-                    </div>
-                </section>
-            </ScrollReveal>
+                    </ScrollReveal>
+                </div>
+            </section>
 
             {/* Interactive Northeast Map */}
             <section className="py-20 bg-white border-t border-gray-100">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="mb-10">
-                        <div className="flex items-center gap-3 mb-3">
-                            <span className="h-[2px] w-10 bg-[#7fff27] block" />
-                            <span className="text-green-600 font-bold uppercase tracking-widest text-sm">Interactive</span>
+                    <ScrollReveal>
+                        <div className="mb-10">
+                            <div className="flex items-center gap-3 mb-3">
+                                <span className="h-[2px] w-10 bg-[#7fff27] block" />
+                                <span className="text-green-600 font-bold uppercase tracking-widest text-sm">Interactive</span>
+                            </div>
+                            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                                <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight">
+                                    Explore the Region
+                                </h2>
+                                <p className="text-gray-400 text-sm max-w-xs leading-relaxed">
+                                    Eight states, one extraordinary corner of the world. Click a pin to start exploring.
+                                </p>
+                            </div>
                         </div>
-                        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-                            <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight">
-                                Explore the Region
-                            </h2>
-                            <p className="text-gray-400 text-sm max-w-xs leading-relaxed">
-                                Eight states, one extraordinary corner of the world. Click a pin to start exploring.
-                            </p>
-                        </div>
-                    </div>
-                    <NortheastMapWrapper />
+                    </ScrollReveal>
+                    <ScrollReveal delay={100}>
+                        <NortheastMapWrapper />
+                    </ScrollReveal>
                 </div>
             </section>
         </div>

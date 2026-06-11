@@ -21,7 +21,7 @@ export default function HeroSection({
     subtitle: string;
     image?: string;
     showSearch?: boolean;
-    images?: { src: string; label?: string; location?: string }[];
+    images?: { src: string; label?: string; location?: string; title?: string; subtitle?: string }[];
     slug?: string;
     contentType?: 'state' | 'city' | 'attraction';
     customClass?: string;
@@ -42,7 +42,7 @@ export default function HeroSection({
     }
 
     // Use the image as-is; curated images are already reliable Unsplash URLs
-    const slides = effectiveImages.map((slide: { src: string; label?: string; location?: string }) => ({
+    const slides = effectiveImages.map((slide: { src: string; label?: string; location?: string; title?: string; subtitle?: string }) => ({
         ...slide,
         src: slide.src || CURATED_SLIDES[0].src,
     }));
@@ -58,10 +58,6 @@ export default function HeroSection({
 
         return () => clearInterval(timer);
     }, [slides.length]);
-
-    const goTo = (idx: number) => {
-        setCurrent(idx);
-    };
 
     if (minimal) {
         return (
@@ -110,21 +106,29 @@ export default function HeroSection({
 
             {/* ── Content ── */}
                 <div className="relative z-[3] text-center text-white px-4 max-w-5xl mx-auto">
-                    <div>
-                        {/* Location badge */}
-                        <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-1.5 mb-6 text-sm font-medium">
-                            <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-                            {slides[current].location ?? 'North East India'}
-                        </div>
+                    <AnimatePresence mode="wait">
+                        <motion.div
+                            key={current}
+                            initial={{ opacity: 0, y: 24 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -16 }}
+                            transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+                        >
+                            {/* Location badge */}
+                            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-1.5 mb-6 text-sm font-medium">
+                                <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+                                {slides[current].location ?? 'North East India'}
+                            </div>
 
-                        <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold mb-5 drop-shadow-xl leading-tight uppercase tracking-wide">
-                            {title}
-                        </h1>
+                            <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold mb-5 drop-shadow-xl leading-tight uppercase tracking-wide">
+                                {slides[current].title ?? title}
+                            </h1>
 
-                        <p className="text-lg md:text-xl mb-8 drop-shadow-md text-gray-200 max-w-2xl mx-auto">
-                            {subtitle}
-                        </p>
-                    </div>
+                            <p className="text-lg md:text-xl mb-8 drop-shadow-md text-gray-200 max-w-2xl mx-auto">
+                                {slides[current].subtitle ?? subtitle}
+                            </p>
+                        </motion.div>
+                    </AnimatePresence>
 
                 {showSearch && (
                     <div className="max-w-md ml-auto flex items-center bg-white rounded-full p-1.5 shadow-[0_20px_50px_rgba(0,0,0,0.3)] transform hover:scale-[1.01] transition-all duration-300 border border-gray-100">

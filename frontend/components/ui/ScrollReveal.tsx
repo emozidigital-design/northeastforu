@@ -1,65 +1,48 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
 
 interface ScrollRevealProps {
     children: React.ReactNode;
     delay?: number;
     direction?: 'up' | 'down' | 'left' | 'right';
     className?: string;
+    amount?: number;
 }
+
+const directionOffset = {
+    up: { y: 40, x: 0 },
+    down: { y: -40, x: 0 },
+    left: { y: 0, x: 40 },
+    right: { y: 0, x: -40 },
+};
 
 const ScrollReveal: React.FC<ScrollRevealProps> = ({
     children,
     delay = 0,
     direction = 'up',
-    className = ''
+    className = '',
+    amount = 0.12,
 }) => {
-    const [isVisible, setIsVisible] = useState(false);
     const ref = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    setIsVisible(true);
-                    observer.unobserve(entry.target);
-                }
-            },
-            { threshold: 0.1 }
-        );
-
-        if (ref.current) {
-            observer.observe(ref.current);
-        }
-
-        return () => {
-            if (ref.current) observer.unobserve(ref.current);
-        };
-    }, []);
-
-    const getTransform = () => {
-        if (isVisible) return 'translate(0, 0)';
-        switch (direction) {
-            case 'up': return 'translateY(30px)';
-            case 'down': return 'translateY(-30px)';
-            case 'left': return 'translateX(30px)';
-            case 'right': return 'translateX(-30px)';
-        }
-    };
+    const isInView = useInView(ref, { once: true, amount });
+    const offset = directionOffset[direction];
 
     return (
-        <div
+        <motion.div
             ref={ref}
-            className={`transition-all duration-700 ease-out ${className}`}
-            style={{
-                opacity: isVisible ? 1 : 0,
-                transform: getTransform(),
-                transitionDelay: `${delay}ms`,
+            initial={{ opacity: 0, x: offset.x, y: offset.y }}
+            animate={isInView ? { opacity: 1, x: 0, y: 0 } : {}}
+            transition={{
+                duration: 0.75,
+                delay: delay / 1000,
+                ease: [0.22, 1, 0.36, 1],
             }}
+            className={className}
         >
             {children}
-        </div>
+        </motion.div>
     );
 };
 

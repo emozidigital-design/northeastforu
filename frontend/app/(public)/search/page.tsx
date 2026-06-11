@@ -5,6 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Search as SearchIcon, MapPin, Compass, BookOpen, ArrowRight } from 'lucide-react';
 import { searchAPI } from '@/lib/api';
+import ScrollReveal from '@/components/ui/ScrollReveal';
 
 function SearchResults() {
     const searchParams = useSearchParams();
@@ -59,6 +60,7 @@ function SearchResults() {
     return (
         <div className="space-y-12">
             {(results.states?.length || 0) > 0 && (
+                <ScrollReveal>
                 <section>
                     <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
                         <MapPin className="text-green-600" /> States
@@ -72,9 +74,11 @@ function SearchResults() {
                         ))}
                     </div>
                 </section>
+                </ScrollReveal>
             )}
 
             {(results.cities?.length || 0) > 0 && (
+                <ScrollReveal delay={80}>
                 <section>
                     <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
                         <MapPin className="text-blue-600" /> Cities
@@ -88,9 +92,11 @@ function SearchResults() {
                         ))}
                     </div>
                 </section>
+                </ScrollReveal>
             )}
 
             {(results.attractions?.length || 0) > 0 && (
+                <ScrollReveal delay={80}>
                 <section>
                     <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
                         <Compass className="text-orange-600" /> Attractions
@@ -104,9 +110,11 @@ function SearchResults() {
                         ))}
                     </div>
                 </section>
+                </ScrollReveal>
             )}
 
             {(results.activities?.length || 0) > 0 && (
+                <ScrollReveal delay={80}>
                 <section>
                     <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
                         <Compass className="text-red-600" /> Activities
@@ -120,9 +128,11 @@ function SearchResults() {
                         ))}
                     </div>
                 </section>
+                </ScrollReveal>
             )}
 
             {(results.blogs?.length || 0) > 0 && (
+                <ScrollReveal delay={80}>
                 <section>
                     <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
                         <BookOpen className="text-purple-600" /> Blog Posts
@@ -138,6 +148,7 @@ function SearchResults() {
                         ))}
                     </div>
                 </section>
+                </ScrollReveal>
             )}
         </div>
     );

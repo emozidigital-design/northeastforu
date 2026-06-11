@@ -11,6 +11,7 @@ import PageLoader from "@/components/ui/PageLoader";
 import SearchOverlay from "@/components/ui/SearchOverlay";
 import WhatsAppButton from "@/components/ui/WhatsAppButton";
 import ChatWidget from "@/components/ui/ChatWidget";
+import PageTransition from "@/components/ui/PageTransition";
 import { Suspense } from "react";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -105,7 +106,7 @@ export default function RootLayout({
           <ChatWidget />
         </Suspense>
         <main className="flex-grow pt-[89px]">
-          {children}
+          <PageTransition>{children}</PageTransition>
         </main>
         <Footer />
 

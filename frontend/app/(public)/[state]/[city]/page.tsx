@@ -13,6 +13,7 @@ import { getCityData } from '@/lib/cityData';
 import ImprovedFAQ from '@/components/ui/ImprovedFAQ';
 import InsiderTipCard from '@/components/ui/InsiderTipCard';
 import Breadcrumbs from '@/components/ui/Breadcrumbs';
+import ScrollReveal from '@/components/ui/ScrollReveal';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
@@ -191,6 +192,7 @@ export default async function CityPage({ params }: { params: Promise<{ state: st
                     <div className="flex-1 lg:max-w-[740px] xl:max-w-[800px] space-y-20 pt-12">
                         
                         {/* Tab 1: Discover / Overview */}
+                        <ScrollReveal>
                         <section id="tab-overview" className="space-y-8 scroll-mt-32">
                             <div className="flex items-center gap-4 mb-2">
                                 <div className="w-12 h-12 rounded-2xl bg-green-50 flex items-center justify-center text-green-600">
@@ -262,8 +264,10 @@ export default async function CityPage({ params }: { params: Promise<{ state: st
                                 <p className="text-gray-500 italic">Detailed description coming soon.</p>
                             )}
                         </section>
+                        </ScrollReveal>
 
                         {/* Tab 2: Top Attractions */}
+                        <ScrollReveal>
                         <section id="tab-attractions" className="space-y-10 scroll-mt-32 pt-10 border-t border-gray-100">
                             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
                                 <div>
@@ -337,9 +341,11 @@ export default async function CityPage({ params }: { params: Promise<{ state: st
                                 </div>
                             )}
                         </section>
+                        </ScrollReveal>
 
                         {/* Insider Tips Section (Added) */}
                         {tips.length > 0 && (
+                        <ScrollReveal>
                             <section className="space-y-8 pt-10 border-t border-gray-100">
                                 <div className="flex items-center gap-4">
                                     <div className="w-12 h-12 rounded-2xl bg-amber-50 flex items-center justify-center text-amber-600">
@@ -359,9 +365,11 @@ export default async function CityPage({ params }: { params: Promise<{ state: st
                                     ))}
                                 </div>
                             </section>
+                        </ScrollReveal>
                         )}
 
                         {/* Tab 3: Curated Tours */}
+                        <ScrollReveal>
                         <section id="tab-tours" className="space-y-10 scroll-mt-32 pt-10 border-t border-gray-100">
                             <div className="flex items-center justify-between">
                                 <div>
@@ -430,8 +438,10 @@ export default async function CityPage({ params }: { params: Promise<{ state: st
                                 </div>
                             )}
                         </section>
+                        </ScrollReveal>
 
                         {/* Tab 3: Weather & Insights */}
+                        <ScrollReveal>
                         <section id="tab-weather" className="space-y-8 scroll-mt-32 pt-10 border-t border-gray-100">
                             <div className="flex items-center gap-4">
                                 <div className="w-12 h-12 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600">
@@ -449,6 +459,7 @@ export default async function CityPage({ params }: { params: Promise<{ state: st
                             {/* FAQ Section (Integrated) */}
                             <ImprovedFAQ pageType="city" pageSlug={citySlug} title={`Essentials for ${cityName}`} />
                         </section>
+                        </ScrollReveal>
 
                     </div>
 

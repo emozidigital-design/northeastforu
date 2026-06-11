@@ -8,6 +8,7 @@ import { fetchBlogBySlug, fetchAllBlogs } from '@/lib/api';
 import { Calendar, User, Tag, Clock, ChevronRight } from 'lucide-react';
 import CategoryPills from '@/components/blog/CategoryPills';
 import ReadingProgress from '@/components/blog/ReadingProgress';
+import ScrollReveal from '@/components/ui/ScrollReveal';
 import BlogSidebar from '@/components/blog/BlogSidebar';
 import BlogShareButtons from '@/components/blog/BlogShareButtons';
 import StayConnected from '@/components/blog/StayConnected';
@@ -213,12 +214,17 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                 {/* Bottom Sections */}
                 <div className="mt-24 space-y-24">
                     {/* Stay Connected Box */}
-                    <StayConnected />
+                    <ScrollReveal>
+                        <StayConnected />
+                    </ScrollReveal>
 
                     {/* About Sections */}
-                    <AboutSections />
+                    <ScrollReveal delay={100}>
+                        <AboutSections />
+                    </ScrollReveal>
 
                     {/* Related Articles Grid */}
+                    <ScrollReveal delay={150}>
                     <section className="space-y-10">
                         <div className="flex items-center justify-between">
                             <h2 className="text-3xl font-display font-bold text-[#0f1e14]">You Might Also Like</h2>
@@ -258,6 +264,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                             ))}
                         </div>
                     </section>
+                    </ScrollReveal>
                 </div>
             </div>
         </div>

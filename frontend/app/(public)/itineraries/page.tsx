@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import HeroSection from '@/components/ui/HeroSection';
+import ScrollReveal from '@/components/ui/ScrollReveal';
 import { Clock, IndianRupee, ArrowRight } from 'lucide-react';
 
 export const metadata = {
@@ -123,6 +124,7 @@ export default async function ItinerariesPage() {
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
 
                 {/* Header */}
+                <ScrollReveal>
                 <div className="mb-16">
                     <div className="flex items-center gap-3 mb-3">
                         <span className="h-[2px] w-10 bg-[#7fff27] block" />
@@ -137,6 +139,7 @@ export default async function ItinerariesPage() {
                         {itineraries.length} curated trips
                     </p>
                 </div>
+                </ScrollReveal>
 
                 {/* Alternating rows */}
                 <div className="flex flex-col divide-y divide-gray-100">
@@ -146,8 +149,8 @@ export default async function ItinerariesPage() {
                         const catStyle = CATEGORY_STYLES[itin.category ?? ''] ?? 'bg-gray-100 text-gray-600';
 
                         return (
+                            <ScrollReveal key={itin.id} delay={i * 80}>
                             <Link
-                                key={itin.id}
                                 href={`/itineraries/${itin.slug}`}
                                 className="group grid grid-cols-1 md:grid-cols-2 gap-0 py-12 md:py-16 items-center hover:bg-gray-50/60 transition-colors duration-300 rounded-2xl px-2"
                             >
@@ -218,6 +221,7 @@ export default async function ItinerariesPage() {
                                     </div>
                                 </div>
                             </Link>
+                            </ScrollReveal>
                         );
                     })}
                 </div>
