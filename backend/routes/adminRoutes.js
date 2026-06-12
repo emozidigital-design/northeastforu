@@ -9,6 +9,43 @@ const socialShare = require('../services/socialShare.service');
 const newsletterSend = require('../services/newsletterSend.service');
 const imageGenerator = require('../services/imageGenerator.service');
 
+// GET /api/admin/stats — dashboard counts + recent activity
+router.get('/stats', authMiddleware, async (req, res, next) => {
+    try {
+        const [
+            states, cities, attractions, activities, itineraries,
+            leadsTotal, leadsNew, reviewsPending, subscribers,
+            recentLeads, recentReviews
+        ] = await Promise.all([
+            prisma.states.count(),
+            prisma.cities.count(),
+            prisma.attractions.count(),
+            prisma.activities.count(),
+            prisma.itineraries.count(),
+            prisma.leads.count(),
+            prisma.leads.count({ where: { status: { in: ['new', 'New'] } } }),
+            prisma.reviews.count({ where: { is_approved: false } }),
+            prisma.newsletters.count({ where: { is_active: true } }),
+            prisma.leads.findMany({ orderBy: { created_at: 'desc' }, take: 5 }),
+            prisma.reviews.findMany({ where: { is_approved: false }, orderBy: { created_at: 'desc' }, take: 5 }),
+        ]);
+
+        res.status(200).json({
+            success: true,
+            data: {
+                counts: {
+                    states, cities, attractions, activities, itineraries,
+                    leads: leadsTotal, leadsNew, reviewsPending, subscribers,
+                },
+                recentLeads,
+                recentReviews,
+            },
+        });
+    } catch (error) {
+        next(error);
+    }
+});
+
 router.get('/stale-content', authMiddleware, async (req, res, next) => {
     try {
         const staleThreshold = new Date();
@@ -53,7 +90,7 @@ router.get('/stale-content', authMiddleware, async (req, res, next) => {
 // Automation Stats
 router.get('/automation/stats', authMiddleware, async (req, res, next) => {
     try {
-        const totalPublished = await prisma.blog.count({ where: { ai_draft: true } });
+        const totalPublished = await prisma.blogs.count({ where: { ai_draft: true } });
         const failedCount = await prisma.blog_queue.count({ where: { status: 'failed' } });
 
         res.status(200).json({

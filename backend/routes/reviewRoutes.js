@@ -13,7 +13,7 @@ router.post('/', async (req, res, next) => {
             return res.status(400).json({ error: 'Missing required fields' });
         }
 
-        const review = await prisma.review.create({
+        const review = await prisma.reviews.create({
             data: {
                 page_type,
                 page_slug,
@@ -35,7 +35,7 @@ router.post('/', async (req, res, next) => {
 router.get('/:page_type/:slug', async (req, res, next) => {
     try {
         const { page_type, slug } = req.params;
-        const reviews = await prisma.review.findMany({
+        const reviews = await prisma.reviews.findMany({
             where: {
                 page_type,
                 page_slug: slug,
@@ -64,11 +64,51 @@ router.get('/:page_type/:slug', async (req, res, next) => {
 // GET /api/reviews/pending - Admin only
 router.get('/pending', authMiddleware, async (req, res, next) => {
     try {
-        const reviews = await prisma.review.findMany({
+        const reviews = await prisma.reviews.findMany({
             where: { is_approved: false },
             orderBy: { created_at: 'desc' }
         });
         res.status(200).json({ success: true, data: reviews });
+    } catch (error) {
+        next(error);
+    }
+});
+
+// GET /api/reviews?status=pending|approved|all - Admin moderation list
+router.get('/', authMiddleware, async (req, res, next) => {
+    try {
+        const { status = 'all' } = req.query;
+        const where =
+            status === 'pending' ? { is_approved: false } :
+            status === 'approved' ? { is_approved: true } : {};
+        const reviews = await prisma.reviews.findMany({
+            where,
+            orderBy: { created_at: 'desc' }
+        });
+        res.status(200).json({ success: true, data: reviews });
+    } catch (error) {
+        next(error);
+    }
+});
+
+// PUT /api/reviews/:id/approve - Admin toggle approval { is_approved }
+router.put('/:id/approve', authMiddleware, async (req, res, next) => {
+    try {
+        const review = await prisma.reviews.update({
+            where: { id: parseInt(req.params.id) },
+            data: { is_approved: req.body.is_approved !== false }
+        });
+        res.status(200).json({ success: true, data: review });
+    } catch (error) {
+        next(error);
+    }
+});
+
+// DELETE /api/reviews/:id - Admin delete
+router.delete('/:id', authMiddleware, async (req, res, next) => {
+    try {
+        await prisma.reviews.delete({ where: { id: parseInt(req.params.id) } });
+        res.status(200).json({ success: true, message: 'Review deleted' });
     } catch (error) {
         next(error);
     }
@@ -80,7 +120,7 @@ router.patch('/:id', authMiddleware, async (req, res, next) => {
         const { id } = req.params;
         const { is_approved } = req.body;
 
-        const review = await prisma.review.update({
+        const review = await prisma.reviews.update({
             where: { id: parseInt(id) },
             data: { is_approved }
         });

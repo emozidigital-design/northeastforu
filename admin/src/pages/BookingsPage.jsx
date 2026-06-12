@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import { api } from '../lib/api';
 import Table from '../components/Table';
-import { Trash2, RefreshCw } from 'lucide-react';
+import Modal from '../components/Modal';
+import FormField from '../components/FormField';
+import { Trash2, RefreshCw, Download, Eye } from 'lucide-react';
 import styles from './Page.module.css';
 
 const STATUS_OPTIONS = ['new', 'contacted', 'confirmed', 'cancelled'];
@@ -10,6 +12,9 @@ export default function BookingsPage() {
   const [leads, setLeads] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('all');
+  const [editing, setEditing] = useState(null);
+  const [saving, setSaving] = useState(false);
+  const [msg, setMsg] = useState('');
 
   async function load() {
     setLoading(true);
@@ -29,6 +34,34 @@ export default function BookingsPage() {
       setLeads(prev => prev.map(l => l.id === id ? { ...l, status } : l));
     } catch (err) {
       alert('Error: ' + err.message);
+    }
+  }
+
+  function openDetail(row) {
+    const followUp = row.follow_up_date ? new Date(row.follow_up_date).toISOString().slice(0, 10) : '';
+    setEditing({ ...row, follow_up_date: followUp });
+    setMsg('');
+  }
+  function handleEditChange(e) {
+    setEditing(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  }
+  async function handleSaveDetail(e) {
+    e.preventDefault();
+    setSaving(true); setMsg('');
+    try {
+      await api.updateLead(editing.id, {
+        status: editing.status,
+        assigned_to: editing.assigned_to,
+        follow_up_date: editing.follow_up_date || null,
+        notes: editing.notes,
+      });
+      setMsg('Saved!');
+      await load();
+      setTimeout(() => setEditing(null), 500);
+    } catch (err) {
+      setMsg('Error: ' + err.message);
+    } finally {
+      setSaving(false);
     }
   }
 
@@ -79,9 +112,12 @@ export default function BookingsPage() {
       render: v => v ? new Date(v).toLocaleDateString() : '—'
     },
     {
-      key: 'actions', label: '', width: '60px',
+      key: 'actions', label: 'Actions', width: '110px',
       render: (_, row) => (
-        <button className={styles.deleteBtn} onClick={() => handleDelete(row.id)}><Trash2 size={13} /></button>
+        <div className={styles.btnRow}>
+          <button className={styles.editBtn} onClick={() => openDetail(row)}><Eye size={13} /></button>
+          <button className={styles.deleteBtn} onClick={() => handleDelete(row.id)}><Trash2 size={13} /></button>
+        </div>
       )
     }
   ];
@@ -102,6 +138,7 @@ export default function BookingsPage() {
             <option value="all">All</option>
             {STATUS_OPTIONS.map(s => <option key={s} value={s}>{s}</option>)}
           </select>
+          <button className={styles.secondaryBtn} onClick={() => api.exportLeads()}><Download size={15} /> Export CSV</button>
           <button onClick={load} style={{ background: '#f1f5f9', border: 'none', padding: '9px 12px', borderRadius: 10, cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
             <RefreshCw size={16} color="#64748b" />
           </button>
@@ -131,6 +168,34 @@ export default function BookingsPage() {
       <div className={styles.tableCard}>
         <Table columns={columns} data={filtered} loading={loading} emptyMsg="No bookings found" />
       </div>
+
+      {editing && (
+        <Modal title={`Booking: ${editing.name}`} onClose={() => setEditing(null)} wide>
+          <form onSubmit={handleSaveDetail} className={styles.form}>
+            <div className={styles.grid2}>
+              <FormField label="Email" name="email" value={editing.email} onChange={() => {}} />
+              <FormField label="Phone" name="phone" value={editing.phone} onChange={() => {}} />
+            </div>
+            <div className={styles.grid2}>
+              <FormField label="Destination" name="destination" value={editing.destination} onChange={() => {}} />
+              <FormField label="Budget Range" name="budget_range" value={editing.budget_range} onChange={() => {}} />
+            </div>
+            <FormField label="Message" name="message" type="textarea" rows={3} value={editing.message} onChange={() => {}} />
+            <div className={styles.sectionTitle}>CRM</div>
+            <div className={styles.grid2}>
+              <FormField label="Status" name="status" type="select" value={editing.status || 'new'} onChange={handleEditChange} options={STATUS_OPTIONS.map(s => ({ value: s, label: s }))} />
+              <FormField label="Assigned To" name="assigned_to" value={editing.assigned_to} onChange={handleEditChange} />
+            </div>
+            <FormField label="Follow-up Date" name="follow_up_date" type="date" value={editing.follow_up_date} onChange={handleEditChange} />
+            <FormField label="Notes" name="notes" type="textarea" rows={4} value={editing.notes} onChange={handleEditChange} />
+            {msg && <div className={msg.startsWith('Error') ? styles.error : styles.success}>{msg}</div>}
+            <div className={styles.actions}>
+              <button type="button" className={styles.cancelBtn} onClick={() => setEditing(null)}>Close</button>
+              <button type="submit" className={styles.saveBtn} disabled={saving}>{saving ? 'Saving...' : 'Save'}</button>
+            </div>
+          </form>
+        </Modal>
+      )}
     </div>
   );
 }

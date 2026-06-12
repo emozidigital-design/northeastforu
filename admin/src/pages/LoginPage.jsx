@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../lib/api';
+import { setSession } from '../lib/auth';
 import styles from './LoginPage.module.css';
 
 export default function LoginPage() {
@@ -16,7 +17,7 @@ export default function LoginPage() {
     try {
       const res = await api.login(form.email, form.password);
       if (res.token) {
-        localStorage.setItem('admin_token', res.token);
+        setSession(res.token, res.user);
         navigate('/dashboard');
       } else {
         setError(res.error || 'Invalid credentials');
@@ -65,7 +66,6 @@ export default function LoginPage() {
           </button>
         </form>
 
-        <p className={styles.hint}>Default: admin@northeastforu.com / admin123</p>
       </div>
     </div>
   );

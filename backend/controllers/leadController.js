@@ -68,11 +68,48 @@ exports.updateLeadStatus = async (req, res, next) => {
     } catch (error) { next(error); }
 };
 
+// PUT /api/leads/:id  (admin-protected) — edit CRM fields
+exports.updateLead = async (req, res, next) => {
+    try {
+        const { status, assigned_to, follow_up_date, notes } = req.body;
+        const { rows } = await pool.query(
+            `UPDATE leads SET
+                status = COALESCE($1, status),
+                assigned_to = COALESCE($2, assigned_to),
+                follow_up_date = COALESCE($3, follow_up_date),
+                notes = COALESCE($4, notes)
+             WHERE id = $5 RETURNING *`,
+            [status || null, assigned_to || null, follow_up_date ? new Date(follow_up_date) : null, notes ?? null, req.params.id]
+        );
+        if (!rows.length) return res.status(404).json({ error: 'Lead not found' });
+        res.json({ success: true, data: rows[0] });
+    } catch (error) { next(error); }
+};
+
 // DELETE /api/leads/:id  (admin-protected)
 exports.deleteLead = async (req, res, next) => {
     try {
         const { rowCount } = await pool.query('DELETE FROM leads WHERE id = $1', [req.params.id]);
         if (!rowCount) return res.status(404).json({ error: 'Lead not found' });
         res.json({ success: true });
+    } catch (error) { next(error); }
+};
+
+const csvCell = (v) => {
+    if (v == null) return '';
+    const s = String(v);
+    return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+};
+
+// GET /api/leads/export  (admin-protected) — CSV download
+exports.exportLeads = async (req, res, next) => {
+    try {
+        const { rows } = await pool.query('SELECT * FROM leads ORDER BY created_at DESC');
+        const cols = ['id', 'name', 'email', 'phone', 'country', 'destination', 'travel_date', 'num_travellers', 'budget_range', 'status', 'assigned_to', 'follow_up_date', 'source_page', 'message', 'notes', 'created_at'];
+        const header = cols.join(',');
+        const body = rows.map(r => cols.map(c => csvCell(r[c])).join(',')).join('\n');
+        res.setHeader('Content-Type', 'text/csv');
+        res.setHeader('Content-Disposition', 'attachment; filename="leads.csv"');
+        res.send(header + '\n' + body);
     } catch (error) { next(error); }
 };

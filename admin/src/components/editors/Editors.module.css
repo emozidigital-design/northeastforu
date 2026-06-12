@@ -1,0 +1,127 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.req { color: #ef4444; margin-left: 2px; }
+
+.input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #1e293b;
+  background: #fff;
+  outline: none;
+  resize: vertical;
+}
+.input:focus { border-color: #22c55e; }
+.input::placeholder { color: #cbd5e1; }
+
+/* ImageField */
+.imageRow {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.imageRow .input { flex: 1; }
+
+.thumb {
+  width: 56px;
+  height: 56px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 1.5px solid #e2e8f0;
+  flex-shrink: 0;
+  background: #f8fafc;
+}
+
+.uploadBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 12px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  background: #f8fafc;
+  color: #334155;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.uploadBtn:hover { background: #f1f5f9; border-color: #cbd5e1; }
+.uploadBtn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.hiddenInput { display: none; }
+
+.uploadErr { font-size: 12px; color: #ef4444; margin-top: 2px; }
+
+/* JsonListField + FaqField */
+.listRow {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 6px;
+}
+.listRow .input { flex: 1; }
+
+.iconBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  background: #fff;
+  color: #64748b;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.iconBtn:hover { background: #f8fafc; }
+.removeBtn:hover { color: #ef4444; border-color: #fecaca; }
+
+.addBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 12px;
+  border: 1.5px dashed #cbd5e1;
+  border-radius: 8px;
+  background: #fff;
+  color: #475569;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 2px;
+}
+.addBtn:hover { border-color: #22c55e; color: #16a34a; }
+
+.faqItem {
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: relative;
+}
+.faqItem .removeBtn { position: absolute; top: 8px; right: 8px; }
+
+/* Two-column grid for SEO pair */
+.grid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+@media (max-width: 640px) { .grid2 { grid-template-columns: 1fr; } }

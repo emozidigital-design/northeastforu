@@ -1,8 +1,8 @@
 import { Outlet, NavLink, useNavigate } from 'react-router-dom';
-import { logout } from '../lib/auth';
+import { logout, getUser } from '../lib/auth';
 import {
-  LayoutDashboard, MapPin, Building2, FileText,
-  Route, CalendarCheck, LogOut, Menu, X
+  LayoutDashboard, MapPin, Building2, Landmark, Mountain,
+  Route, CalendarCheck, Star, Mail, Image, LogOut, Menu, X
 } from 'lucide-react';
 import { useState } from 'react';
 import styles from './Layout.module.css';
@@ -11,14 +11,19 @@ const nav = [
   { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
   { to: '/states', icon: MapPin, label: 'States' },
   { to: '/cities', icon: Building2, label: 'Cities' },
-  { to: '/blogs', icon: FileText, label: 'Blogs' },
+  { to: '/attractions', icon: Landmark, label: 'Attractions' },
+  { to: '/activities', icon: Mountain, label: 'Activities' },
   { to: '/itineraries', icon: Route, label: 'Itineraries' },
   { to: '/bookings', icon: CalendarCheck, label: 'Bookings' },
+  { to: '/reviews', icon: Star, label: 'Reviews' },
+  { to: '/newsletter', icon: Mail, label: 'Newsletter' },
+  { to: '/media', icon: Image, label: 'Media' },
 ];
 
 export default function Layout() {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const user = getUser();
 
   function handleLogout() {
     logout();
@@ -47,6 +52,12 @@ export default function Layout() {
             </NavLink>
           ))}
         </nav>
+        {user && (
+          <div className={styles.userBox}>
+            <div className={styles.userName}>{user.name || user.email}</div>
+            <div className={styles.userRole}>{user.role}</div>
+          </div>
+        )}
         <button className={styles.logoutBtn} onClick={handleLogout}>
           <LogOut size={16} />
           <span>Logout</span>

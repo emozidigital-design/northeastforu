@@ -1,4 +1,5 @@
 import { MetadataRoute } from 'next';
+import { fetchAllBlogs } from '@/lib/api';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5006/api';
 
@@ -21,13 +22,14 @@ async function safeFetch(url: string): Promise<any[]> {
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const baseUrl = 'https://northeastforu.com';
 
-    const [states, cities, attractions, activities, blogs] = await Promise.all([
+    const [states, cities, attractions, activities, blogsRes] = await Promise.all([
         safeFetch(`${API_URL}/states`),
         safeFetch(`${API_URL}/cities?limit=100`),
         safeFetch(`${API_URL}/attractions?limit=200`),
         safeFetch(`${API_URL}/activities?limit=100`),
-        safeFetch(`${API_URL}/blogs?limit=100`),
+        fetchAllBlogs().catch(() => ({ data: [] })), // Emozi CMS (with local/static fallback)
     ]);
+    const blogs = blogsRes?.data || [];
 
     const staticPages: MetadataRoute.Sitemap = [
         { url: baseUrl, lastModified: new Date(), changeFrequency: 'daily', priority: 1 },

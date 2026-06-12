@@ -80,6 +80,26 @@
   background: #15803d;
 }
 
+.userBox {
+  padding: 12px 22px;
+  border-top: 1px solid #1e293b;
+}
+
+.userName {
+  font-size: 13px;
+  font-weight: 600;
+  color: #e2e8f0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.userRole {
+  font-size: 11px;
+  color: #64748b;
+  text-transform: capitalize;
+}
+
 .logoutBtn {
   display: flex;
   align-items: center;

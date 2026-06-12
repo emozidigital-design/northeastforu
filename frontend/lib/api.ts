@@ -1,5 +1,6 @@
 import { STATIC_BLOGS, getBlogBySlug as getStaticBlog } from './blogData';
 import { STATIC_ITINERARIES, getItineraryBySlug as getStaticItinerary } from './itineraryData';
+import { fetchEmoziBlogs, fetchEmoziBlogBySlug } from './emoziBlog';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5006/api';
 
@@ -65,13 +66,19 @@ export async function fetchAllActivities() {
     return fetchAPI('/activities', { next: { revalidate: 30 } });
 }
 
+// Blogs are sourced from the external Emozi CMS (admin.emozidigital.com).
+// Order of preference: Emozi CMS → local API (legacy) → static fallback.
 export async function fetchBlogBySlug(slug: string) {
+    const emozi = await fetchEmoziBlogBySlug(slug);
+    if (emozi) return emozi;
     const res = await fetchAPI(`/blogs/${slug}`, { next: { revalidate: 3600 } });
     if (res?.data) return res.data;
     return getStaticBlog(slug);
 }
 
 export async function fetchAllBlogs() {
+    const emozi = await fetchEmoziBlogs();
+    if (emozi?.length) return { data: emozi };
     const res = await fetchAPI('/blogs', { next: { revalidate: 30 } });
     if (res?.data?.length) return res;
     return { data: STATIC_BLOGS };
