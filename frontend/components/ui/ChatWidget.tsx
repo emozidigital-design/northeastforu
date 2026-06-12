@@ -278,7 +278,9 @@ export default function ChatWidget() {
                                                 <Bot size={16} className="text-white" />
                                             </div>
                                             <div className="p-3 rounded-2xl text-sm bg-red-50 text-red-600 border border-red-100 shadow-sm rounded-tl-none font-medium">
-                                                Something went wrong, please try again.
+                                                {error.message?.includes('429') || error.message?.toLowerCase().includes('too many')
+                                                    ? "You're sending messages too fast. Please wait a moment before trying again."
+                                                    : "Something went wrong, please try again."}
                                             </div>
                                         </div>
                                     </div>

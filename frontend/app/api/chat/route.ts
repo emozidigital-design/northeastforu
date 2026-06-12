@@ -2,8 +2,65 @@ import { CHATBOT_SYSTEM_PROMPT } from '@/lib/prompts/chatbot-system';
 
 export const maxDuration = 30;
 
+// In-memory rate limit store. Resets on cold start (acceptable for abuse prevention).
+// Key: IP address. Value: { minute: { count, resetAt }, hour: { count, resetAt } }
+const rateLimitStore = new Map<string, {
+  minute: { count: number; resetAt: number };
+  hour:   { count: number; resetAt: number };
+}>();
+
+const LIMIT_PER_MINUTE = 10;
+const LIMIT_PER_HOUR   = 50;
+
+function checkRateLimit(ip: string): { allowed: boolean; retryAfter: number } {
+  const now = Date.now();
+  const entry = rateLimitStore.get(ip) ?? {
+    minute: { count: 0, resetAt: now + 60_000 },
+    hour:   { count: 0, resetAt: now + 3_600_000 },
+  };
+
+  if (now > entry.minute.resetAt) entry.minute = { count: 0, resetAt: now + 60_000 };
+  if (now > entry.hour.resetAt)   entry.hour   = { count: 0, resetAt: now + 3_600_000 };
+
+  if (entry.minute.count >= LIMIT_PER_MINUTE) {
+    return { allowed: false, retryAfter: Math.ceil((entry.minute.resetAt - now) / 1000) };
+  }
+  if (entry.hour.count >= LIMIT_PER_HOUR) {
+    return { allowed: false, retryAfter: Math.ceil((entry.hour.resetAt - now) / 1000) };
+  }
+
+  entry.minute.count++;
+  entry.hour.count++;
+  rateLimitStore.set(ip, entry);
+  return { allowed: true, retryAfter: 0 };
+}
+
+function getClientIp(req: Request): string {
+  const forwarded = req.headers.get('x-forwarded-for');
+  if (forwarded) return forwarded.split(',')[0].trim();
+  return req.headers.get('x-real-ip') ?? 'unknown';
+}
+
 export async function POST(req: Request) {
   try {
+    const ip = getClientIp(req);
+    const { allowed, retryAfter } = checkRateLimit(ip);
+
+    if (!allowed) {
+      return new Response(
+        JSON.stringify({ error: 'Too many requests. Please slow down.' }),
+        {
+          status: 429,
+          headers: {
+            'Content-Type': 'application/json',
+            'Retry-After': String(retryAfter),
+            'X-RateLimit-Limit-Minute': String(LIMIT_PER_MINUTE),
+            'X-RateLimit-Limit-Hour': String(LIMIT_PER_HOUR),
+          },
+        }
+      );
+    }
+
     const { messages } = await req.json();
 
     if (!process.env.OPENROUTER_API_KEY) {
