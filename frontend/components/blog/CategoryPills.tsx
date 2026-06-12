@@ -69,7 +69,7 @@ export default function CategoryPills() {
     };
 
     return (
-        <div className={`sticky z-40 bg-white border-b border-gray-100 shadow-sm overflow-hidden transition-all duration-300 ${isScrolled ? 'top-[73px]' : 'top-[89px]'}`}>
+        <div className={`sticky z-40 bg-white border-b border-gray-100 shadow-sm overflow-hidden transition-all duration-300 ${isScrolled ? 'top-[49px]' : 'top-[57px]'}`}>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative py-3 flex items-center">
 
                 {showLeftArrow && (
