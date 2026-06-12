@@ -1,4 +1,5 @@
 import { CHATBOT_SYSTEM_PROMPT } from '@/lib/prompts/chatbot-system';
+import { buildSiteContext } from '@/lib/prompts/buildSiteContext';
 
 export const maxDuration = 30;
 
@@ -61,14 +62,19 @@ export async function POST(req: Request) {
       );
     }
 
-    const { messages } = await req.json();
-
     if (!process.env.OPENROUTER_API_KEY) {
       return new Response(JSON.stringify({ error: 'OPENROUTER_API_KEY is not set' }), {
         status: 500,
         headers: { 'Content-Type': 'application/json' },
       });
     }
+
+    const { messages } = await req.json();
+
+    // Build live site context (states, cities, itineraries, blogs) and append to system prompt.
+    // Cached for 5 min (revalidate: 300 inside buildSiteContext fetches).
+    const siteContext = await buildSiteContext();
+    const systemPrompt = `${CHATBOT_SYSTEM_PROMPT}\n\n${siteContext}`;
 
     const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
@@ -82,7 +88,7 @@ export async function POST(req: Request) {
         model: 'openai/gpt-5.4-nano',
         stream: true,
         messages: [
-          { role: 'system', content: CHATBOT_SYSTEM_PROMPT },
+          { role: 'system', content: systemPrompt },
           ...messages.map((m: any) => ({ role: m.role, content: m.content })),
         ],
       }),
