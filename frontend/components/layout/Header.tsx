@@ -156,11 +156,6 @@ export default function Header() {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
-    const navItems = [
-        { name: 'Home', href: '/' },
-        { name: 'About Us', href: '/about' },
-        { name: 'Blog', href: '/blog' },
-    ];
 
     return (
         <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b bg-white ${isScrolled ? 'border-gray-100 shadow-lg py-0' : 'border-gray-200 py-1'}`}>
@@ -173,11 +168,9 @@ export default function Header() {
 
                     {/* Desktop Nav */}
                     <nav className="hidden md:flex items-center space-x-8">
-                        {navItems.map((item) => (
-                            <Link key={item.href} href={item.href} className="text-gray-600 hover:text-green-700 font-medium transition-all py-1 px-2 rounded-md hover:border hover:border-[#7fff27]/60 border border-transparent">
-                                {item.name}
-                            </Link>
-                        ))}
+                        <Link href="/" className="text-gray-600 hover:text-green-700 font-medium transition-all py-1 px-2 rounded-md hover:border hover:border-[#7fff27]/60 border border-transparent">
+                            Home
+                        </Link>
 
                         {/* Destinations Mega-Menu */}
                         <div
@@ -202,15 +195,16 @@ export default function Header() {
                                         <div className="w-[200px] bg-gray-50 py-3 border-r border-gray-100">
                                             <p className="px-4 pb-2 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Choose State</p>
                                             {DESTINATIONS.map((dest) => (
-                                                <button
+                                                <Link
                                                     key={dest.slug}
-                                                    type="button"
+                                                    href={`/${dest.slug}`}
                                                     className={`w-full flex items-center justify-between px-4 py-2.5 text-sm font-medium transition-colors text-left ${activeState.slug === dest.slug ? 'bg-white text-green-700 border-r-2 border-green-500' : 'text-gray-700 hover:bg-white hover:text-green-600'}`}
                                                     onMouseEnter={() => setActiveState(dest)}
+                                                    onClick={() => setShowDest(false)}
                                                 >
                                                     <span>{dest.name}</span>
                                                     <ChevronRight size={13} className={`transition-opacity ${activeState.slug === dest.slug ? 'opacity-100 text-green-500' : 'opacity-0'}`} />
-                                                </button>
+                                                </Link>
                                             ))}
                                         </div>
 
@@ -254,6 +248,10 @@ export default function Header() {
                             )}
                         </div>
 
+                        <Link href="/blog" className="text-gray-600 hover:text-green-700 font-medium transition-all py-1 px-2 rounded-md hover:border hover:border-[#7fff27]/60 border border-transparent">
+                            Blog
+                        </Link>
+
                         {/* Help Dropdown */}
                         <div
                             className="relative"
@@ -287,6 +285,10 @@ export default function Header() {
                                 </div>
                             )}
                         </div>
+
+                        <Link href="/about" className="text-gray-600 hover:text-green-700 font-medium transition-all py-1 px-2 rounded-md hover:border hover:border-[#7fff27]/60 border border-transparent">
+                            About Us
+                        </Link>
 
                         <Link href="/contact" className="text-gray-600 hover:text-green-700 font-medium transition-all py-1 px-2 rounded-md hover:border hover:border-[#7fff27]/60 border border-transparent">
                             Contact
@@ -323,16 +325,13 @@ export default function Header() {
             {isMenuOpen && (
                 <div className="md:hidden absolute top-full left-0 right-0 bg-white border-b border-gray-100 shadow-xl max-h-[80vh] overflow-y-auto">
                     <div className="px-4 py-5 space-y-1">
-                        {navItems.map((item) => (
-                            <Link
-                                key={item.href}
-                                href={item.href}
-                                className="block py-3 px-2 text-base font-medium text-gray-900 hover:text-green-600 border-b border-gray-50"
-                                onClick={() => setIsMenuOpen(false)}
-                            >
-                                {item.name}
-                            </Link>
-                        ))}
+                        <Link
+                            href="/"
+                            className="block py-3 px-2 text-base font-medium text-gray-900 hover:text-green-600 border-b border-gray-50"
+                            onClick={() => setIsMenuOpen(false)}
+                        >
+                            Home
+                        </Link>
 
                         {/* Mobile Destinations */}
                         <div className="border-b border-gray-50">
@@ -381,6 +380,14 @@ export default function Header() {
                             )}
                         </div>
 
+                        <Link
+                            href="/blog"
+                            className="block py-3 px-2 text-base font-medium text-gray-900 hover:text-green-600 border-b border-gray-50"
+                            onClick={() => setIsMenuOpen(false)}
+                        >
+                            Blog
+                        </Link>
+
                         {/* Mobile Help */}
                         <div className="border-b border-gray-50">
                             <button
@@ -405,6 +412,14 @@ export default function Header() {
                                 </div>
                             )}
                         </div>
+
+                        <Link
+                            href="/about"
+                            className="block py-3 px-2 text-base font-medium text-gray-900 hover:text-green-600 border-b border-gray-50"
+                            onClick={() => setIsMenuOpen(false)}
+                        >
+                            About Us
+                        </Link>
 
                         <Link href="/contact" className="block py-3 px-2 text-base font-medium text-gray-900 hover:text-green-600 border-b border-gray-50" onClick={() => setIsMenuOpen(false)}>
                             Contact

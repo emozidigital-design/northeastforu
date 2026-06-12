@@ -105,7 +105,7 @@ export default function RootLayout({
           <WhatsAppButton />
           <ChatWidget />
         </Suspense>
-        <main className="flex-grow pt-[89px]">
+        <main className="flex-grow pt-[57px]">
           <PageTransition>{children}</PageTransition>
         </main>
         <Footer />
