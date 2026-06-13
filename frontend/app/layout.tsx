@@ -5,7 +5,6 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 
 import GTMProvider from "@/components/analytics/GTMProvider";
-import GA4Provider from "@/components/analytics/GA4Provider";
 import MetaPixel from "@/components/analytics/MetaPixel";
 import PageLoader from "@/components/ui/PageLoader";
 import SearchOverlay from "@/components/ui/SearchOverlay";
@@ -75,6 +74,15 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${playfair.variable} ${dmSans.variable} ${poppins.variable} ${sourceSans.variable} font-sans min-h-screen flex flex-col`}>
+        {/* GTM noscript fallback — must be immediately after <body> */}
+        <noscript>
+          <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-MQGZ6MRV"
+            height="0"
+            width="0"
+            style={{ display: 'none', visibility: 'hidden' }}
+          />
+        </noscript>
         {/* Organization JSON-LD Schema */}
         <script
           type="application/ld+json"
@@ -110,9 +118,8 @@ export default function RootLayout({
         </main>
         <Footer />
 
-        {/* Analytics at bottom to avoid blocking hydration of core UI */}
+        {/* Analytics — GA4 and Clarity fire through GTM tags */}
         <GTMProvider />
-        <GA4Provider />
         <MetaPixel />
       </body>
     </html>
