@@ -258,11 +258,14 @@ model itineraries {
   title          String   @db.VarChar(255)
   slug           String   @unique @db.VarChar(255)
   description    String?
+  tagline        String?  @db.VarChar(500)
   duration_days  Int
   price_estimate Decimal? @db.Decimal(10, 2)
   featured_image String?
   category       String?  @db.VarChar(100)
   highlights     Json?    @default("[]")
+  daily_schedule Json?    @default("[]")
+  pricing_tiers  Json?    @default("[]")
   created_at     DateTime @default(now())
 }
 

@@ -5,12 +5,15 @@ import Modal from '../components/Modal';
 import FormField from '../components/FormField';
 import ImageField from '../components/editors/ImageField';
 import JsonListField from '../components/editors/JsonListField';
+import DailyScheduleField from '../components/editors/DailyScheduleField';
+import PricingTiersField from '../components/editors/PricingTiersField';
 import { Plus, Pencil, Trash2 } from 'lucide-react';
 import styles from './Page.module.css';
 
 const empty = {
   title: '', slug: '', category: '', duration_days: '', price_estimate: '',
-  description: '', featured_image: '', highlights: []
+  description: '', tagline: '', featured_image: '', highlights: [],
+  daily_schedule: [], pricing_tiers: []
 };
 
 const categoryOptions = [
@@ -127,7 +130,10 @@ export default function ItinerariesPage() {
             </div>
             <ImageField value={d.featured_image} onChange={(url) => setField('featured_image', url)} />
             <FormField label="Description" name="description" type="textarea" rows={4} value={d.description} onChange={handleChange} />
+            <FormField label="Tagline (shown as blockquote quote on detail page)" name="tagline" value={d.tagline} onChange={handleChange} placeholder="Drive through breathtaking mountain roads to Tawang…" />
             <JsonListField label="Highlights" value={d.highlights} onChange={(v) => setField('highlights', v)} />
+            <DailyScheduleField value={d.daily_schedule} onChange={(v) => setField('daily_schedule', v)} />
+            <PricingTiersField value={d.pricing_tiers} onChange={(v) => setField('pricing_tiers', v)} />
             {msg && <div className={msg.startsWith('Error') ? styles.error : styles.success}>{msg}</div>}
             <div className={styles.actions}>
               <button type="button" className={styles.cancelBtn} onClick={() => setModal(null)}>Cancel</button>

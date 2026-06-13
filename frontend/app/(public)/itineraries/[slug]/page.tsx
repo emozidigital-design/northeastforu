@@ -24,55 +24,16 @@ export default async function ItineraryDetailPage({ params }: Props) {
     const itinerary = await fetchItinerary(slug);
     if (!itinerary) return notFound();
 
-    // Mock data for demonstration of the new diversified layout
-    const mockDays = [
-        {
-            day: 1,
-            title: "Arrival & Local Sightseeing",
-            description: `Welcome to the gateway of North East India. After arrival, we'll head straight to the highlights of the region.`,
-            activities: ["Airport/Station pickup", "Check-in to hotel", "Evening river cruise", "Local market visit"],
-            meals: ["Lunch", "Dinner"],
-            stay: "Guwahati / Base City"
-        },
-        {
-            day: 2,
-            title: "Into the Clouds",
-            description: "A scenic drive through winding mountain roads as we ascend into the pristine landscapes.",
-            activities: ["Mountain drive", "Waterfall photography", "Local village lunch", "Nature walk"],
-            meals: ["Breakfast", "Lunch", "Dinner"],
-            stay: "Hill Station Lodge"
-        },
-        {
-            day: 3,
-            title: "Adventure & Cultural Immersion",
-            description: "Spend the day exploring deep caves, crystal clear rivers, and interacting with the local tribes.",
-            activities: ["Caving adventure", "Crystal river boating", "Tribal village tour", "Stargazing session"],
-            meals: ["Breakfast", "Lunch", "Dinner"],
-            stay: "Eco-Resort"
-        }
-    ];
+    // Use real DB data; fall back gracefully when not yet populated in admin
+    const rawDays = Array.isArray(itinerary.daily_schedule) ? itinerary.daily_schedule : [];
+    const days = rawDays.map((d: Record<string, unknown>, i: number) => ({ day: i + 1, ...d }));
 
-    const mockTiers = [
-        {
-            name: "Standard",
-            description: "Cozy & Efficient",
-            price: Number(itinerary.price_estimate || 12000),
-            features: ["3-star properties", "Private transport (SUV)", "Daily breakfast", "Basic sightseeing"]
-        },
-        {
-            name: "Deluxe",
-            description: "Premium Comfort",
-            price: Number(itinerary.price_estimate || 12000) + 5000,
-            features: ["4-star boutique hotels", "Luxury SUV transport", "Breakfast & Dinner", "Professional guide", "Priority entry fees"],
-            isPopular: true
-        },
-        {
-            name: "Luxury",
-            description: "The Grand Retreat",
-            price: Number(itinerary.price_estimate || 12000) * 1.8,
-            features: ["Luxury 5-star properties", "Private luxury vehicle", "All-inclusive meals", "Dedicated local host", "Curated experiences"]
-        }
-    ];
+    const rawTiers = Array.isArray(itinerary.pricing_tiers) ? itinerary.pricing_tiers : [];
+    const tiers = rawTiers.map((t: Record<string, unknown>) => ({
+        ...t,
+        price: Number(t.price) || 0,
+        features: Array.isArray(t.features) ? t.features : [],
+    }));
 
     return (
         <div className="bg-white min-h-screen">
@@ -116,15 +77,19 @@ export default async function ItineraryDetailPage({ params }: Props) {
                         </ScrollReveal>
 
                         {/* Itinerary Schedule */}
-                        <ScrollReveal delay={100}>
-                            <h2 className="text-3xl font-extrabold text-gray-900 mb-8 tracking-tight">Daily Itinerary Schedule</h2>
-                            <ItineraryList days={mockDays} />
-                        </ScrollReveal>
+                        {days.length > 0 && (
+                            <ScrollReveal delay={100}>
+                                <h2 className="text-3xl font-extrabold text-gray-900 mb-8 tracking-tight">Daily Itinerary Schedule</h2>
+                                <ItineraryList days={days} />
+                            </ScrollReveal>
+                        )}
 
                         {/* Pricing Tiers */}
-                        <ScrollReveal delay={200}>
-                            <PricingTable tiers={mockTiers} />
-                        </ScrollReveal>
+                        {tiers.length > 0 && (
+                            <ScrollReveal delay={200}>
+                                <PricingTable tiers={tiers} />
+                            </ScrollReveal>
+                        )}
                     </div>
 
                     {/* Right Column - Sticky Enquiry Sidebar */}
